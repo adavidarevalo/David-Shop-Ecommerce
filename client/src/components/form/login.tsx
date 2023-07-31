@@ -6,15 +6,16 @@ import { Button, Stack } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/actions/user.actions';
 import { UserState } from '../../redux/slices/user';
+import { AppDispatch, AppState } from '../../redux/store';
 
 export default function LoginForm() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleSubmit = ({ email, password }: { email: string; password: string }) => {
-    dispatch(login(email, password) as any);
+    dispatch(login(email, password));
   };
 
-  const user = useSelector((state: { user: UserState }) => state.user);
+  const user = useSelector((state: AppState) => state.user);
   const { loading } = user;
 
   return (

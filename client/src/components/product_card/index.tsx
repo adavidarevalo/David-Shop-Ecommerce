@@ -6,35 +6,7 @@ import Rating from './rating';
 import { addCartItem } from '../../redux/actions/cart.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartState } from '../../redux/slices/cart';
-
-interface Review {
-  comment: string;
-  createdAt: string;
-  name: string;
-  rating: number;
-  title?: string;
-  updatedAt: string;
-  user: string;
-  _id: string;
-}
-
-
-export interface Product {
-  _id: string;
-  name: string;
-  image: string;
-  description: string;
-  brand: string;
-  category: string;
-  price: number;
-  rating: number;
-  numberOfReviews: number;
-  reviews?: Review[];
-  stock: number;
-  countInStock?: number;
-  qty?: number;
-  productIsNew?: boolean;
-}
+import { Product } from '../../types/product';
 
 interface Props {
   product: Product
@@ -106,7 +78,7 @@ export default function ProductCard({ product }: Props) {
             <Box as='span' color={'gray.600'} fontSize={'lg'}>
               $
             </Box>
-            {price.toFixed(2)}
+            {(+price).toFixed(2)}
           </Box>
           <Tooltip label='Add to cart' bg='white' placement='top' color='gray.800' fontSize='1.2em'>
             <Button variant='ghost' display={'flex'} disabled={stock <= 0} onClick={() => addItem(product._id)}>

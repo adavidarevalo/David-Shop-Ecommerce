@@ -2,10 +2,10 @@ import React from 'react'
 import { Box } from '@chakra-ui/react'
 import { BiCart } from 'react-icons/bi'
 import { useSelector } from 'react-redux'
-import { CartState } from '../../../../redux/slices/cart'
+import { AppState } from '../../../../redux/store'
 
 export default function CartButton() {
-    const cartItems = useSelector((state: { cart: CartState }) => state.cart)
+    const cartItems = useSelector((state: AppState) => state.cart);
     const { cart } = cartItems
 
 	return (

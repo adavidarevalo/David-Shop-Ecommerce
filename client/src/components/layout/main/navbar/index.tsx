@@ -25,22 +25,22 @@ import { ChevronDownIcon, CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from '@c
 import { Link as RouterLink } from 'react-router-dom'
 import NavLink from './navlink'
 import { useDispatch, useSelector } from 'react-redux'
-import { UserState } from '../../../../redux/slices/user'
 import { logout } from '../../../../redux/actions/user.actions'
 import { CgProfile } from 'react-icons/cg'
 import { MdLocalShipping, MdLogout, MdOutlineAdminPanelSettings } from 'react-icons/md'
 import CartButton from './cart_button'
+import { AppDispatch, AppState } from '../../../../redux/store'
 
 export const Navbar = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const { colorMode, toggleColorMode } = useColorMode()
-	const user = useSelector((state: { user: UserState }) => state.user)
+	const user = useSelector((state: AppState) => state.user);
 	const { userInfo } = user
-	const dispatch = useDispatch()
+	const dispatch: AppDispatch = useDispatch();
 	const toast = useToast()
 
 	const logoutHandler = () => {
-		dispatch(logout() as any)
+		dispatch(logout())
 		toast({ description: 'You have been logged out', status: 'success', isClosable: true })
 	}	
 

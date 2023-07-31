@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { UserState } from '../redux/slices/user';
 import { useNavigate } from 'react-router-dom';
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Text, ListItem, Spinner, Stack, Table, TableContainer, Tbody, Td, Th, Thead, Tr, UnorderedList, Wrap } from '@chakra-ui/react';
 import { getUserOrders } from '../redux/actions/user.actions';
+import { AppDispatch, AppState } from '../redux/store';
 
 export default function YourOrdersPage() {
-    const user = useSelector((state: { user: UserState }) => state.user)
+    const user = useSelector((state: AppState) => state.user);
     const { userInfo, loading, error, orders } = user
 
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ export default function YourOrdersPage() {
     }, [userInfo])
 
     useEffect(() => {
-            dispatch(getUserOrders() as any)
+            dispatch(getUserOrders())
     }, [])
     
 
@@ -61,7 +61,7 @@ export default function YourOrdersPage() {
                                       <Td>{order._id}</Td>
                                       <Td>{new Date(order.createdAt).toDateString()}</Td>
                                       <Td>${order.totalPrice} via {order.paymentMethod}</Td>
-                                      <Td>{order.orderItems.map((item: any) => (
+                                      <Td>{order.orderItems.map((item) => (
                                           <UnorderedList key={item._id}>
                                               <ListItem>{item.qty} x {item.name} (${item.price} each)</ListItem>
                                           </UnorderedList>

@@ -1,7 +1,5 @@
-/** @format */
-
-import { createSlice } from '@reduxjs/toolkit';
-import { Product } from '../../components/product_card';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { Product } from '../../types/product';
 
 export interface ProductState {
   loading: boolean;
@@ -9,6 +7,8 @@ export interface ProductState {
   products: Product[];
   product: Product | null;
   reviewSend: boolean;
+  productUpdate: boolean;
+  reviewRemoval: boolean;
 }
 
 export const initialState: ProductState = {
@@ -16,22 +16,24 @@ export const initialState: ProductState = {
   error: null,
   products: [],
   product: null,
-  reviewSend: false
+  reviewSend: false,
+  productUpdate: false,
+  reviewRemoval: false,
 };
 
 export const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    setLoading: (state, { payload }) => {
-      state.loading = payload || true;
+    setLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.loading = payload ?? true;
     },
-    setProducts: (state, { payload }) => {
+    setProducts: (state, { payload }: PayloadAction<{ data: Product[] }>) => {
       state.loading = false;
       state.products = payload.data;
       state.error = null;
     },
-    setProduct: (state, { payload }) => {
+    setProduct: (state, { payload }: PayloadAction<Product>) => {
       state.product = payload;
       state.loading = false;
       state.error = null;
@@ -44,17 +46,37 @@ export const productsSlice = createSlice({
     resetError: (state) => {
       state.error = null;
       state.reviewSend = false;
+      state.productUpdate = false;
+      state.reviewRemoval = false;
     },
-    setError: (state, { payload }) => {
+    setError: (state, { payload }: PayloadAction<string>) => {
       state.loading = false;
       state.error = payload;
       state.products = [];
     },
+    setProductUpdateFlag: (state) => {
+      state.productUpdate = true;
+      state.error = null;
+      state.loading = false;
+    },
+    setReviewRemovalFlag: (state) => {
+      state.error = null;
+      state.loading = false;
+      state.reviewRemoval = true;
+    },
   },
 });
 
-export const { setLoading, setProducts, setProduct, setError, resetError, productReviewed } = productsSlice.actions;
+export const {
+  setLoading,
+  setProducts,
+  setProduct,
+  setError,
+  resetError,
+  productReviewed,
+  setProductUpdateFlag,
+  setReviewRemovalFlag,
+} = productsSlice.actions;
 export default productsSlice.reducer;
 
-export const productsSelector = (state: any) => state.products;
-
+export const productsSelector = (state: ProductState) => state.products;

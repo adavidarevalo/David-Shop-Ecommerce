@@ -1,32 +1,31 @@
-/** @format */
-
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { User } from '../actions/user.actions';
+import { Order } from '../../types/order';
 
 export interface UserState {
   loading: boolean;
   error: string | null;
   userInfo: User | null;
   updateSuccess: boolean;
-  orders: any[]
+  orders: Order[];
 }
 
 export const initialState: UserState = {
   loading: false,
   error: null,
-  userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+  userInfo: JSON.parse(localStorage.getItem('userInfo') || 'null'),
   updateSuccess: false,
-  orders: []
+  orders: [],
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setLoading: (state, { payload }) => {
-      state.loading = payload || true;
+    setLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.loading = payload ?? true;
     },
-    userLogin: (state, { payload }) => {
+    userLogin: (state, { payload }: PayloadAction<User>) => {
       state.userInfo = payload;
       state.loading = false;
       state.error = null;
@@ -35,9 +34,9 @@ export const userSlice = createSlice({
       state.userInfo = null;
       state.loading = false;
       state.error = null;
-      state.orders = []
+      state.orders = [];
     },
-    updateUserProfile: (state, { payload }) => {
+    updateUserProfile: (state, { payload }: PayloadAction<User>) => {
       state.userInfo = payload;
       state.loading = false;
       state.error = null;
@@ -46,12 +45,12 @@ export const userSlice = createSlice({
     resetUpdate: (state) => {
       state.updateSuccess = false;
     },
-    setUserOrders: (state, { payload }) => {
+    setUserOrders: (state, { payload }: PayloadAction<Order[]>) => {
       state.error = null;
       state.orders = payload;
       state.loading = false;
     },
-    setError: (state, { payload }) => {
+    setError: (state, { payload }: PayloadAction<string>) => {
       state.loading = false;
       state.error = payload;
       state.userInfo = null;
@@ -60,7 +59,15 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setLoading, setError, userLogin, userLogOut, updateUserProfile, resetUpdate, setUserOrders } = userSlice.actions;
+export const {
+  setLoading,
+  setError,
+  userLogin,
+  userLogOut,
+  updateUserProfile,
+  resetUpdate,
+  setUserOrders,
+} = userSlice.actions;
 export default userSlice.reducer;
 
-export const userSelector = (state: any) => state.user;
+export const userSelector = (state: { user: UserState }) => state.user;

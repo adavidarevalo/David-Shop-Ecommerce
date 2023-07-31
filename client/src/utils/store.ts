@@ -1,12 +1,11 @@
-/** @format */
-import { Product } from '../components/product_card';
+import { Cart } from '../types/cart';
 import { calculateSubtotal } from './calculate_subtotal';
 
-export const updateLocalStorage = (cart: Product[]) => {
+export const updateLocalStorage = (cart: Cart[]) => {
   localStorage.setItem('cartItems', JSON.stringify(cart));
 };
 
-export const getLocalStorageCart = (): Product[] => {
+export const getLocalStorageCart = (): Cart[] => {
   const products = localStorage.getItem('cartItems');
   return JSON.parse(products || '[]');
 };

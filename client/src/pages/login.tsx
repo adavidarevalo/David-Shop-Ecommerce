@@ -11,11 +11,14 @@ import {
   Box,
   FormControl,
   useToast,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  Alert,
 } from '@chakra-ui/react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { UserState } from '../redux/slices/user';
 import LoginForm from '../components/form/login';
-import ErrorMessage from '../components/error_message';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -50,7 +53,7 @@ export default function LoginPage() {
             <Heading size={headingBR}>Log in to your account</Heading>
             <HStack spacing={'1'} justify={'center'}>
               <Text color={'muted'}>Don&apos;t have an account?</Text>
-              <Button as={RouterLink} to='/registration' variant={'link'} colorScheme='orange'>
+              <Button as={RouterLink} to="/registration" variant={'link'} colorScheme="orange">
                 Sign up
               </Button>
             </HStack>
@@ -60,9 +63,22 @@ export default function LoginPage() {
           py={{ base: '0', sm: '8' }}
           px={{ base: '4', md: '10' }}
           bg={{ boxBr }}
-          boxShadow={{ base: 'none', md: 'xl' }}>
+          boxShadow={{ base: 'none', md: 'xl' }}
+        >
           <Stack spacing={6}>
-            {error && <ErrorMessage error={error} />}
+            {error && (
+              <Alert
+                status="error"
+                flexDirection={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                textAlign={'center'}
+              >
+                <AlertIcon />
+                <AlertTitle>We are sorry!</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
             <Stack spacing={5}>
               <FormControl>
                 <LoginForm />

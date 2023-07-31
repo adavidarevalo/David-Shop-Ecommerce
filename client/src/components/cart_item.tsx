@@ -11,22 +11,23 @@ import {
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addCartItem, removeCartItem } from '../redux/actions/cart.actions';
+import { AppDispatch } from '../redux/store';
+import { Cart } from '../types/cart';
+interface Props {
+  cartItem: Cart;
+}
 
-export default function CartItem({ cartItem }: any): JSX.Element {
+export default function CartItem({ cartItem }: Props): JSX.Element {
   const { image, name, qty, _id, stock, price } = cartItem;
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    dispatch(addCartItem(_id, +e.target.value) as any);
+    dispatch(addCartItem(_id, +e.target.value));
   };
 
   return (
-    <Flex
-      direction={{ base: 'column', md: 'row' }}
-      justify={'space-between'}
-      align={'center'}
-    >
+    <Flex direction={{ base: 'column', md: 'row' }} justify={'space-between'} align={'center'}>
       <Stack direction={'row'} spacing={'5'} width={'full'}>
         <Image
           rounded={'lg'}
@@ -64,7 +65,7 @@ export default function CartItem({ cartItem }: any): JSX.Element {
           ))}
         </Select>
         <Text fontWeight={'bold'}>${price}</Text>
-        <CloseButton onClick={() => dispatch(removeCartItem(_id) as any)} />
+        <CloseButton onClick={() => dispatch(removeCartItem(_id))} />
       </Flex>
     </Flex>
   );

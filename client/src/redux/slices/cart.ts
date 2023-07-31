@@ -1,14 +1,16 @@
-/** @format */
-
 import { createSlice } from '@reduxjs/toolkit';
-import { Product } from '../../components/product_card';
 import { calculateSubtotal } from '../../utils/calculate_subtotal';
-import { getLocalStorageCart, getLocalStorageSubtotal, updateLocalStorage } from '../../utils/store';
+import {
+  getLocalStorageCart,
+  getLocalStorageSubtotal,
+  updateLocalStorage,
+} from '../../utils/store';
+import { Cart } from '../../types/cart';
 
 export interface CartState {
   loading: boolean;
   error: string | null;
-  cart: Product[];
+  cart: Cart[];
   expressShipping: boolean;
   subtotal: number;
 }
@@ -17,7 +19,7 @@ export const initialState: CartState = {
   loading: false,
   error: null,
   cart: getLocalStorageCart(),
-  expressShipping: (JSON.parse(localStorage.getItem('expressShipping') || 'false')),
+  expressShipping: JSON.parse(localStorage.getItem('expressShipping') || 'null'),
   subtotal: getLocalStorageSubtotal(),
 };
 
@@ -70,11 +72,12 @@ export const cartSlice = createSlice({
       localStorage.setItem('expressShipping', JSON.stringify(payload));
       state.loading = false;
       state.error = null;
-    }
+    },
   },
 });
 
-export const { setLoading, cartItemAdd, setError, removeItem, clearCart, setExpressShipping } = cartSlice.actions;
+export const { setLoading, cartItemAdd, setError, removeItem, clearCart, setExpressShipping } =
+  cartSlice.actions;
 export default cartSlice.reducer;
 
-export const cartSelector = (state: any) => state.cart;
+export const cartSelector = (state: CartState) => state.cart;

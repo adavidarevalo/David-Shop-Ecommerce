@@ -5,6 +5,7 @@ import asyncHandler from 'express-async-handler';
 import { User } from '../models/user.model';
 import { generateToken } from '../utils/token';
 import { Order } from '../models/order.model';
+import { User as UserInterface } from '../types/user';
 
 export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -73,7 +74,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
   }
 });
 
-export const updateProfile = asyncHandler(async (req: Request & { user: any }, res: Response) => {
+export const updateProfile = asyncHandler(async (req: Request & { user: UserInterface }, res: Response) => {
   const user = await User.findById(req.params.id);
 
   if (user) {
@@ -103,46 +104,45 @@ export const updateProfile = asyncHandler(async (req: Request & { user: any }, r
   }
 });
 
-
 export const getUserOrders = asyncHandler(async (req: Request, res: Response) => {
-  const orders = await Order.find({ user: req.params.id })
+  const orders = await Order.find({ user: req.params.id });
   if (orders) {
     res.status(200).json({
       success: true,
       data: orders,
       error: null,
-    })
+    });
   } else {
     res.status(404).json({
       success: false,
       data: null,
       error: 'Orders not found',
-    })
+    });
   }
-})
+});
 
 export const getUsers = asyncHandler(async (req: Request, res: Response) => {
-  const users = User.find({})
+  const users = await User.find({});
   res.status(200).json({
     success: true,
     data: users,
     error: null,
-  })
-})
+  });
+});
 
 export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id)
+    const user = await User.findByIdAndDelete(req.params.id);
     res.status(200).json({
       success: true,
       data: null,
       error: null,
-    })
+    });
   } catch (error) {
     res.status(404).json({
       success: false,
       data: null,
       error: 'User not found',
-    })
+    });
   }
-})
+});

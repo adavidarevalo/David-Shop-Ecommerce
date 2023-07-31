@@ -61,7 +61,7 @@ const product = new Schema(
     },
     numberOfReviews: {
       type: Number,
-      required: true,
+      default: 0,
     },
     stock: {
       type: Number,
@@ -72,6 +72,10 @@ const product = new Schema(
       type: Boolean,
       required: true,
       default: true,
+    },
+    price: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

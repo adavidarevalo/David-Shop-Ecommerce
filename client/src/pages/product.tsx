@@ -37,7 +37,7 @@ export default function ProductPage() {
   const [title, setTitle] = useState("")
   const [reviewBoxOpen, setReviewBoxOpen] = useState(false)
     const [amount, setAmount] = useState(1)
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
     const toast =  useToast()
 
     const {id} = useParams()
@@ -53,11 +53,11 @@ export default function ProductPage() {
   const { userInfo } = user
 
     useEffect(() => {
-      id && dispatch(getProduct(id) as any);
+      id && dispatch(getProduct(id));
 
       if (reviewSend) {
         toast({description: "Product review saved", status: "success", isClosable: true})
-        dispatch(resetProductError() as any)
+        dispatch(resetProductError())
         setReviewBoxOpen(false)
       }
     }, [dispatch, id, cart, reviewSend]);
@@ -76,11 +76,11 @@ export default function ProductPage() {
   }, [product, userInfo])
 
     const onSubmit = () => {
-      dispatch(createProductReview(product?._id as string, userInfo?._id as string, comment, rating, title) as any)
+      dispatch(createProductReview(product?._id as string, userInfo?._id as string, comment, rating, title))
     }
 
     const addItem = () => {
-        dispatch(addCartItem(id as string, amount) as any);
+        dispatch(addCartItem(id as string, amount));
         toast({ 
             description: "Item has been added.",
             status: "success",

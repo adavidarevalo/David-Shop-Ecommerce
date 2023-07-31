@@ -1,11 +1,9 @@
-/** @format */
+import { Cart } from '../types/cart';
 
-import { Product } from '../components/product_card';
-
-export function calculateSubtotal(cart: Product[]): number {
+export function calculateSubtotal(cart: Cart[]): number {
   let result = 0;
 
-  cart.forEach((item) => (result += (item?.qty || 0) * item.price));
+  cart.forEach((item) => (result += (item?.qty || 0) * +item.price));
 
   return +result.toFixed(2);
 }

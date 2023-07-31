@@ -16,14 +16,14 @@ import { getProducts } from '../redux/actions/product.actions';
 import { ProductState } from '../redux/slices/product';
 
 export default function ProductsPage() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
 
   const productList = useSelector((state: { products: ProductState }) => state.products);
 
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch<any>(getProducts());
+    dispatch(getProducts());
   }, [dispatch]);
 
   return (
@@ -43,7 +43,7 @@ export default function ProductsPage() {
       )}
       {products.length > 0 &&
         loading === false &&
-        products.map((product: any) => (
+        products.map((product) => (
           <WrapItem key={product._id}>
             <Center w='250px' h='550px'>
               <ProductCard product={product} />

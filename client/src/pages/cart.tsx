@@ -64,7 +64,7 @@ export default function CartPage() {
                 Shopping Cart
               </Heading>
               <Stack spacing={'6'}>
-                {cart.map((cartItem: any) => (
+                {cart.map((cartItem) => (
                   <CartItem key={cartItem._id} cartItem={cartItem} />
                 ))}
               </Stack>

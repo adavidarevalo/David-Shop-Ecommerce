@@ -1,18 +1,15 @@
-/** @format */
-
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import products, { ProductState } from './slices/product';
-import cart, { CartState } from './slices/cart';
-import user, { UserState } from './slices/user';
-import order, { OrderState } from './slices/order';
-import admin, { AdminState } from './slices/admin';
+import products from './slices/product';
+import cart from './slices/cart';
+import user from './slices/user';
+import order from './slices/order';
+import admin from './slices/admin';
 
 const reducer = combineReducers({ products, cart, user, order, admin });
 
-export default configureStore<{
-  user: UserState;
-  products: ProductState;
-  cart: CartState;
-  order: OrderState;
-  admin: AdminState
-}>({ reducer });
+const store = configureStore({ reducer });
+
+export type AppDispatch = typeof store.dispatch;
+export type AppState = ReturnType<typeof reducer>;
+
+export default store;

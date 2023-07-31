@@ -5,18 +5,18 @@ import PasswordTextField from './password_text_field';
 import { Button, Stack } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/actions/user.actions';
-import { UserState } from '../../redux/slices/user';
 import { registrationSchema } from '../../schemas/registrations';
+import { AppDispatch, AppState } from '../../redux/store';
 
 export default function RegistrationForm() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleSubmit = ({ email, password, name }: { email: string; name: string; password: string }) => {
-    dispatch(register(name, email, password) as any);
+    dispatch(register(name, email, password));
   };
 
 
-  const user = useSelector((state: { user: UserState }) => state.user);
+  const user = useSelector((state: AppState) => state.user);
   const { loading } = user;
 
   return (
@@ -24,7 +24,7 @@ export default function RegistrationForm() {
       initialValues={{ name: '', email: '', password: '', confirmPassword: "" }}
       validationSchema={registrationSchema}
       onSubmit={handleSubmit}>
-      {(formik) => (
+      {() => (
         <Form>
           <TextField type='text' name='name' placeholder='Your first and last name' label='Full name' />
           <TextField type='text' name='email' placeholder='user@example.com' label='Email' />

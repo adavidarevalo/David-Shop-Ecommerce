@@ -6,6 +6,7 @@ import { Box, Flex, Heading, Radio, RadioGroup, Stack, Text, Tooltip } from '@ch
 import TextField from './text_field';
 import { setExpress } from '../../redux/actions/cart.actions';
 import { setShippingAddress } from '../../redux/actions/order.actions';
+import { AppDispatch } from '../../redux/store';
 
 export interface ShippingInformationForm {
   address: string;
@@ -15,9 +16,9 @@ export interface ShippingInformationForm {
 }
 
 export default function ShippingInformation() {
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch();
   const handlerSubmit = (values: ShippingInformationForm) => {
-    dispatch(setShippingAddress(values) as any)
+    dispatch(setShippingAddress(values))
     
   }
   return (
@@ -43,7 +44,7 @@ export default function ShippingInformation() {
           <Box w={"100%"} h={"180px"} pr={5}>
             <Heading fontSize={"2xl"} fontWeight={"extrabold"} mb={10}>Shipping Method</Heading>
             <RadioGroup defaultValue='false' onChange={(e) => {
-              dispatch(setExpress(!!e) as any)
+              dispatch(setExpress(!!e))
             }}>
               <Stack direction={{ base: "column", lg: "row" }} align={{ lg: "flex-start" }}>
                 <Stack pr={10} spacing={{ base: 8, md: 10 }} flex={"1.5"}>

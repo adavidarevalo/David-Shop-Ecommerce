@@ -12,12 +12,13 @@ import {
   useColorModeValue as mode
 } from '@chakra-ui/react';
 import { FaArrowRight } from 'react-icons/fa';
+import { AppState } from '../redux/store';
 
 export default function CartOrderSummary(): JSX.Element {
   const [buttonLoading, setButtonLoading] = useState(false);
   const standardShipping = Number(4.99).toFixed(2);
 
-  const cartItems = useSelector((state: { cart: CartState }) => state.cart);
+  const cartItems = useSelector((state: AppState) => state.cart);
   const { subtotal } = cartItems;
 
   const navigate = useNavigate();
