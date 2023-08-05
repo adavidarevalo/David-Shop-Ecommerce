@@ -2,12 +2,25 @@ import React from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { PAYPAL_KEY } from '../../env';
 
+export type OnApproveData = {
+  billingToken?: string | null;
+  facilitatorAccessToken: string;
+  orderID: string;
+  payerID?: string | null;
+  paymentID?: string | null;
+  subscriptionID?: string | null;
+  authCode?: string | null;
+  paymentSource?: string
+};
+
 interface Props {
   total: number;
   onPaymentSuccess: (data: any) => void;
   onPaymentError: (error: any) => void;
   isButtonDisabled: boolean;
 }
+
+
 export default function PaypalButton({
   total,
   onPaymentSuccess,
@@ -24,20 +37,20 @@ export default function PaypalButton({
     >
       <PayPalButtons
         disabled={isButtonDisabled}
-        forceReRender={[total]}
+        forceReRender={[0.01]}
         createOrder={async (_, actions) => {
           return await actions.order.create({
             purchase_units: [
               {
                 amount: {
-                  value: `${total}`,
+                  value: `${0.01}`,
                 },
               },
             ],
           });
         }}
-        onApprove={async (data, actions: any) => {
-          return actions?.order.capture().then(() => {
+        onApprove={async (data: OnApproveData, actions) => {
+          return actions.order!.capture().then(() => {
             onPaymentSuccess(data);
           });
         }}

@@ -2,13 +2,14 @@ import { Dispatch } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { clearOrder, setError, setLoading, shippingAddressAdd } from '../slices/order';
 import { ShippingInformationForm } from '../../components/form/shipping_information';
+import { AppState } from '../store';
 
 export const setShippingAddress = (address: ShippingInformationForm) => (dispatch: Dispatch) => {
   dispatch(setLoading(true));
   dispatch(shippingAddressAdd(address));
 };
 
-export const createOrder = (order: any) => async (dispatch: Dispatch, getState: any) => {
+export const createOrder = (order: any) => async (dispatch: Dispatch, getState: () => AppState) => {
   const {
     order: { shippingAddress },
     user: { userInfo },
@@ -19,7 +20,7 @@ export const createOrder = (order: any) => async (dispatch: Dispatch, getState: 
     const config = {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userInfo?.token}`,
       },
     };
     await axios.post('api/orders', preparedOrder, config);

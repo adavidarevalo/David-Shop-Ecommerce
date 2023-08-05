@@ -3,40 +3,35 @@ import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Spinner, S
 import { useDispatch, useSelector } from 'react-redux'
 import { CheckCircleIcon, DeleteIcon } from '@chakra-ui/icons'
 import ConfirmRemovalAlert from '../confirm_removal_alert'
-import { getAllOrders, resetErrorAndRemoval, setDelivered } from '../../redux/actions/admin.actions'
+import { deleteOrder, getAllOrders, resetErrorAndRemoval, setDelivered } from '../../redux/actions/admin.actions'
 import { TbTruckDelivery } from "react-icons/tb"
 import { AppDispatch, AppState } from '../../redux/store'
+import { Order } from '../../types/order'
 
 export default function OrdersTab() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = useRef(null)
-  const [orderToDelete, setOrderToDelete] = useState(null)
+  const [orderToDelete, setOrderToDelete] = useState<Order | null>(null)
   const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
   const admin = useSelector((state: AppState) => state.admin);
 
-  const { error, loading, deliveredFlag, orders, orderRemoval } = admin
+  const { error, loading, orders } = admin
 
   useEffect(() => {
     dispatch(getAllOrders())
-    dispatch(resetErrorAndRemoval())
-    if (orderRemoval) {
-      toast({ description: "User has been remove", status: "success", isClosable: true })
-    }
-    if (deliveredFlag) {
-      toast({ description: "User has been set to delivered.", status: "success", isClosable: true })
-    }
-  }, [orderRemoval, dispatch, toast, deliveredFlag])
+  }, [])
 
-  const openDeleteConfirmBox = (order: any) => {
-    setOrderToDelete(order)
-    onOpen()
-  }
+  const openDeleteConfirmBox = (order: Order) => {
+    setOrderToDelete(order);
+    onOpen();
+  };
 
-  const onSetToDelivered = (order: any) => {
-    dispatch(resetErrorAndRemoval())
-    dispatch(setDelivered(order._id))
-  }
+  const onSetToDelivered = (order: Order) => {
+    dispatch(resetErrorAndRemoval());
+    dispatch(setDelivered(order._id));
+    toast({ description: 'User has been set to delivered.', status: 'success', isClosable: true });
+  };
 
   
   return (
@@ -77,6 +72,7 @@ export default function OrdersTab() {
                   <Th>Shipping Price</Th>
                   <Th>Total</Th>
                   <Th>Delivered</Th>
+                  <Th>Actions</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -135,14 +131,16 @@ export default function OrdersTab() {
           </TableContainer>
         </Box>
       )}
-      {/* <ConfirmRemovalAlert
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onClose={onClose}
-        cancelRef={cancelRef}
-        itemToDelete={orderToDelete}
-        deleteAction={setOrderToDelete}
-      /> */}
+      {orderToDelete && (
+        <ConfirmRemovalAlert
+          isOpen={isOpen}
+          onClose={onClose}
+          cancelRef={cancelRef}
+          itemToDelete={orderToDelete}
+          deleteAction={deleteOrder}
+          successMessage={'Order has been deleted'}
+        />
+      )}
     </Box>
   );
 }

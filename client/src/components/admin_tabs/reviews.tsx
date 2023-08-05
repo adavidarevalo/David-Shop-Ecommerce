@@ -1,3 +1,5 @@
+import React, { useRef, useState } from 'react';
+
 import {
   Alert,
   AlertDescription,
@@ -24,62 +26,54 @@ import {
   AccordionPanel,
   Thead,
   Textarea,
-  Spacer
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogOverlay,
+  Spacer,
 } from '@chakra-ui/react';
-import React, { useEffect, useRef, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { AdminState } from '../../redux/slices/admin';
-import { CheckCircleIcon, DeleteIcon } from '@chakra-ui/icons';
-import ConfirmRemovalAlert from '../confirm_removal_alert';
-import {
-  removeReview,
-  resetErrorAndRemoval,
-  setDelivered,
-} from '../../redux/actions/admin.actions';
-import { TbTruckDelivery } from 'react-icons/tb';
+import { DeleteIcon } from '@chakra-ui/icons';
+import { removeReview } from '../../redux/actions/admin.actions';
 import { ProductState } from '../../redux/slices/product';
-import { getProducts } from '../../redux/actions/product.actions';
 import { AppDispatch } from '../../redux/store';
 
 export default function ReviewsTabsTab() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
-  const [orderToDelete, setOrderToDelete] = useState(null);
+  const [reviewToDelete, setReviewToDelete] = useState<{
+    productId: string;
+    reviewId: string;
+  } | null>(null);
   const dispatch: AppDispatch = useDispatch();
   const toast = useToast();
   const admin = useSelector((state: { admin: AdminState }) => state.admin);
 
-  const { error, loading, deliveredFlag, orders, orderRemoval } = admin;
+  const { error, loading } = admin;
 
-    const productInfo = useSelector((state: { products: ProductState }) => state.products);
-    const { products, reviewRemoval } = productInfo;
+  const productInfo = useSelector((state: { products: ProductState }) => state.products);
+  const { products } = productInfo;
 
-  useEffect(() => {
-    dispatch(getProducts());
-    dispatch(resetErrorAndRemoval());
-
-    if (reviewRemoval) {
-      toast({
-        description: 'Review has been removed.',
-        status: 'success',
-        isClosable: true,
-      });
-    }
-  }, [reviewRemoval, dispatch, toast]);
-
-  const openDeleteConfirmBox = (order: any) => {
-    setOrderToDelete(order);
+  const openReviewModal = (productId: string, reviewId: string) => {
+    setReviewToDelete({
+      productId,
+      reviewId,
+    });
     onOpen();
   };
 
-  const onSetToDelivered = (order: any) => {
-    dispatch(resetErrorAndRemoval());
-    dispatch(setDelivered(order._id));
+  const onDeleteItem = () => {
+    dispatch(removeReview(reviewToDelete!.productId, reviewToDelete!.reviewId));
+    toast({
+      description: 'Review has been removed.',
+      status: 'success',
+      isClosable: true,
+    });
+    onClose();
   };
-
-  const onRemoveReview = (productId: string, reviewId: string) => {
-    dispatch(removeReview(productId, reviewId));
-  }
 
   return (
     <Box>
@@ -152,7 +146,7 @@ export default function ReviewsTabsTab() {
                                   <Button
                                     variant={'outline'}
                                     colorScheme="red"
-                                    onClick={() => onRemoveReview(product._id, review._id)}
+                                    onClick={() => openReviewModal(product._id, review._id)}
                                   >
                                     <DeleteIcon />
                                   </Button>
@@ -167,6 +161,25 @@ export default function ReviewsTabsTab() {
                 </Accordion>
               </Box>
             ))}
+          {reviewToDelete && (
+            <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+              <AlertDialogOverlay>
+                <AlertDialogContent>
+                  <AlertDialogBody>
+                    Are you sure? You can&apos;t undo this action afterwards.
+                  </AlertDialogBody>
+                  <AlertDialogFooter>
+                    <Button ref={cancelRef} onClick={onClose}>
+                      Cancel
+                    </Button>
+                    <Button colorScheme="red" onClick={onDeleteItem} ml={3}>
+                      Delete
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialogOverlay>
+            </AlertDialog>
+          )}
         </Box>
       )}
     </Box>

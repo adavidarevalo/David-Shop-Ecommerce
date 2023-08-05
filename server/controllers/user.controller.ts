@@ -122,7 +122,8 @@ export const getUserOrders = asyncHandler(async (req: Request, res: Response) =>
 });
 
 export const getUsers = asyncHandler(async (req: Request, res: Response) => {
-  const users = await User.find({});
+  const users = await User.find({}, '-password');
+
   res.status(200).json({
     success: true,
     data: users,
@@ -132,7 +133,7 @@ export const getUsers = asyncHandler(async (req: Request, res: Response) => {
 
 export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    await User.findByIdAndDelete(req.params.id);
     res.status(200).json({
       success: true,
       data: null,

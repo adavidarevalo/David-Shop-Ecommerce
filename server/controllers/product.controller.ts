@@ -96,7 +96,7 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
     category,
     stock,
     price,
-    image: '/image/' + image,
+    image,
     productIsNew,
     description,
   });
@@ -141,7 +141,7 @@ export const uploadProduct = asyncHandler(async (req: Request, res: Response) =>
   product.stock = stock || product.stock;
   product.price = price || product.price;
   product.image = image || product.image;
-  product.productIsNew = productIsNew || product.productIsNew;
+  product.productIsNew = productIsNew;
   product.description = description || product.description;
 
   const updatedProduct = await product.save();

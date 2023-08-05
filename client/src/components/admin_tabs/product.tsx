@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import {
   Alert,
   AlertDescription,
@@ -12,60 +13,31 @@ import {
   Th,
   Tr,
   Wrap,
-  useDisclosure,
-  useToast,
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
   Thead,
 } from '@chakra-ui/react';
-import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AdminState } from '../../redux/slices/admin';
-import {
-  resetErrorAndRemoval,
-  setDelivered,
-} from '../../redux/actions/admin.actions';
-import { ProductState } from '../../redux/slices/product';
-import { getProducts, resetProductError } from '../../redux/actions/product.actions';
+
+import { getProducts } from '../../redux/actions/product.actions';
 import ProductTableItem from '../product_table_item';
 import AddNewProduct from '../add_new_product';
 import { AppDispatch, AppState } from '../../redux/store';
 
 export default function ProductTab() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef(null);
-  const [orderToDelete, setOrderToDelete] = useState(null);
   const dispatch: AppDispatch = useDispatch();
-  const toast = useToast();
   const admin = useSelector((state: AppState) => state.admin);
 
-  const { error, loading} = admin;
+  const { error, loading } = admin;
 
   const productInfo = useSelector((state: AppState) => state.products);
-  const { products, productUpdate } = productInfo;
+  const { products } = productInfo;
+
   useEffect(() => {
     dispatch(getProducts());
-    dispatch(resetProductError());
-    if (productUpdate) {
-      toast({
-        description: 'Product has been updated.',
-        status: 'success',
-        isClosable: true,
-      });
-    }
-  }, [productUpdate, dispatch, toast]);
-
-  const openDeleteConfirmBox = (order: any) => {
-    setOrderToDelete(order);
-    onOpen();
-  };
-
-  const onSetToDelivered = (order: any) => {
-    dispatch(resetErrorAndRemoval());
-    dispatch(setDelivered(order._id));
-  };
+  }, []);
 
   return (
     <Box>
@@ -108,7 +80,7 @@ export default function ProductTab() {
               <AccordionPanel pb={4}>
                 <Table>
                   <Tbody>
-                    <AddNewProduct/>
+                    <AddNewProduct />
                   </Tbody>
                 </Table>
               </AccordionPanel>

@@ -14,9 +14,10 @@ import ProductCard from '../components/product_card';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../redux/actions/product.actions';
 import { ProductState } from '../redux/slices/product';
+import { AppDispatch } from '../redux/store';
 
 export default function ProductsPage() {
-  const dispatch = useDispatch<any>();
+  const dispatch: AppDispatch = useDispatch();
 
   const productList = useSelector((state: { products: ProductState }) => state.products);
 

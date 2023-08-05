@@ -6,20 +6,14 @@ export interface AdminState {
   loading: boolean;
   error: string | null;
   userList: User[];
-  userRemoval: boolean;
   orders: Order[];
-  orderRemoval: boolean;
-  deliveredFlag: boolean;
 }
 
 export const initialState: AdminState = {
   loading: false,
   error: null,
   userList: [],
-  userRemoval: false,
   orders: [],
-  orderRemoval: false,
-  deliveredFlag: false,
 };
 
 export const AdminSlice = createSlice({
@@ -27,7 +21,7 @@ export const AdminSlice = createSlice({
   initialState,
   reducers: {
     setLoading: (state, { payload }) => {
-      state.loading = payload || true;
+      state.loading = payload;
     },
     setError: (state, { payload }) => {
       state.loading = false;
@@ -38,32 +32,34 @@ export const AdminSlice = createSlice({
       state.loading = false;
       state.userList = payload;
     },
-    userDelete: (state) => {
+    userDelete: (state, { payload }) => {
+      state.error = null;
       state.loading = false;
-      state.userRemoval = true;
-      state.userRemoval = false;
+      state.userList = state.userList.filter((user) => user._id !== payload);
     },
     getOrders: (state, { payload }) => {
       state.error = null;
       state.loading = false;
       state.orders = payload;
     },
-    orderDelete: (state) => {
-      state.loading = false;
-      state.orderRemoval = true;
+    setUpdateDelivered: (state, { payload }) => {
       state.error = null;
+      state.loading = false;
+      state.orders = state.orders.map((order) => {
+        if (order._id === payload) {
+          order.isDelivered = true;
+        }
+        return order;
+      });
     },
-    setDeliveredFlag: (state) => {
+    orderDelete: (state, { payload }) => {
       state.loading = false;
       state.error = null;
-      state.deliveredFlag = true;
+      state.orders = state.orders.filter((order) => order._id !== payload);
     },
     resetError: (state) => {
       state.error = null;
       state.loading = false;
-      state.userRemoval = false;
-      state.orderRemoval = false;
-      state.deliveredFlag = false;
     },
   },
 });
@@ -76,7 +72,7 @@ export const {
   resetError,
   getOrders,
   orderDelete,
-  setDeliveredFlag,
+  setUpdateDelivered,
 } = AdminSlice.actions;
 export default AdminSlice.reducer;
 

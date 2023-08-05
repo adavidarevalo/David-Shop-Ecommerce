@@ -5,12 +5,12 @@ import {
   getUsersData,
   orderDelete,
   resetError,
-  setDeliveredFlag,
   setError,
   setLoading,
+  setUpdateDelivered,
   userDelete,
 } from '../slices/admin';
-import { setProductUpdateFlag, setProducts, setReviewRemovalFlag } from '../slices/product';
+import { removedReview, setDeleteProduct, setProducts, setUpdateProduct } from '../slices/product';
 import { AppState } from '../store';
 import { NewProduct } from '../../types/product';
 
@@ -55,8 +55,8 @@ export const deleteUser = (id: string) => async (dispatch: Dispatch, getState: (
         Authorization: `Bearer ${userInfo?.token}`,
       },
     };
-    await axios.delete(`api/users/${id}`, config);
-    dispatch(userDelete());
+    await axios.delete(`api/user/${id}`, config);
+    dispatch(userDelete(id));
   } catch (error) {
     if (error instanceof AxiosError) {
       const errorMessage =
@@ -115,7 +115,7 @@ export const deleteOrder = (id: string) => async (dispatch: Dispatch, getState: 
       },
     };
     await axios.delete(`api/orders/${id}`, config);
-    dispatch(orderDelete());
+    dispatch(orderDelete(id));
   } catch (error) {
     if (error instanceof AxiosError) {
       const errorMessage =
@@ -143,7 +143,7 @@ export const setDelivered =
         },
       };
       await axios.put(`api/orders/${id}`, {}, config);
-      dispatch(setDeliveredFlag());
+      dispatch(setUpdateDelivered(id));
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage =
@@ -186,8 +186,8 @@ export const updateProduct =
         { brand, name, category, stock, price, image, productIsNew, description, _id },
         config
       );
-      dispatch(setProducts(data.data));
-      dispatch(setProductUpdateFlag());
+      dispatch(setUpdateProduct(data.data));
+      dispatch(setLoading(false));
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage =
@@ -214,9 +214,8 @@ export const deleteProduct =
           Authorization: `Bearer ${userInfo?.token}`,
         },
       };
-      const { data } = await axios.delete(`api/products/${_id}`, config);
-      dispatch(setProducts(data.data));
-      dispatch(setProductUpdateFlag());
+      await axios.delete(`api/products/${_id}`, config);
+      dispatch(setDeleteProduct(_id));
       dispatch(resetError());
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -246,7 +245,6 @@ export const createProduct =
       };
       const { data } = await axios.post(`api/products`, newProduct, config);
       dispatch(setProducts(data.data));
-      dispatch(setProductUpdateFlag());
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage =
@@ -275,7 +273,8 @@ export const removeReview =
       };
 
       await axios.put(`api/products/${productId}/${reviewId}`, {}, config);
-      dispatch(setReviewRemovalFlag());
+      dispatch(removedReview({ productId, reviewId }));
+      dispatch(setLoading(false));
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage =

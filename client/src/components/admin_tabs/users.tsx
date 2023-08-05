@@ -17,37 +17,32 @@ import {
   Tr,
   Wrap,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUser, getAllUsers, resetErrorAndRemoval } from '../../redux/actions/admin.actions';
+import { deleteUser, getAllUsers } from '../../redux/actions/admin.actions';
 import { CheckCircleIcon } from '@chakra-ui/icons';
 import ConfirmRemovalAlert from '../confirm_removal_alert';
 import { AppDispatch, AppState } from '../../redux/store';
+import { User } from '../../types/user';
 
 export default function UsersTab() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
-  const [userToDelete, setUserToDelete] = useState('');
+  const [userToDelete, setUserToDelete] = useState<User | null>(null);
   const dispatch: AppDispatch = useDispatch();
-  const toast = useToast();
 
   const user = useSelector((state: AppState) => state.user);
   const admin = useSelector((state: AppState) => state.admin);
 
-  const { error, loading, userRemoval, userList } = admin;
+  const { error, loading, userList } = admin;
 
   const { userInfo } = user;
 
   useEffect(() => {
     dispatch(getAllUsers());
-    dispatch(resetErrorAndRemoval());
-    if (userRemoval) {
-      toast({ description: 'User has been remove', status: 'success', isClosable: true });
-    }
-  }, [userRemoval]);
+  }, []);
 
-  const openDeleteConfirmBox = (user: any) => {
+  const openDeleteConfirmBox = (user: User) => {
     setUserToDelete(user);
     onOpen();
   };
@@ -112,7 +107,16 @@ export default function UsersTab() {
               </Tbody>
             </Table>
           </TableContainer>
-          {/* <ConfirmRemovalAlert isOpen={isOpen} onClose={onClose} cancelRef={cancelRef} itemToDelete={userToDelete} deleteAction={deleteUser}/> */}
+          {userToDelete && (
+            <ConfirmRemovalAlert
+              isOpen={isOpen}
+              onClose={onClose}
+              cancelRef={cancelRef}
+              itemToDelete={userToDelete}
+              deleteAction={deleteUser}
+              successMessage={"'User has been remove'"}
+            />
+          )}
         </Box>
       )}
     </Box>

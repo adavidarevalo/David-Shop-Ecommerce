@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import CheckoutItem from './item';
 import { ChatIcon, EmailIcon, PhoneIcon } from '@chakra-ui/icons';
-import PaypalButton from './paypal_button';
+import PaypalButton, { OnApproveData } from './paypal_button';
 import { createOrder, resetOrder } from '../../redux/actions/order.actions';
 import { resetCart } from '../../redux/actions/cart.actions';
 import PaymentsErrorModal from './../modals/payments_error';
@@ -38,20 +38,22 @@ export default function CheckoutOrderSummary() {
   }, [shipping, subtotal])
 
 
-  const onPaymentSuccess = async (data: any) => {
-    dispatch(createOrder({
-      orderItems: cart,
-      shippingAddress,
-      paymentMethod: data.paymentSource,
-      paymentDetails: data,
-      shippingPrice: shipping(),
-      totalPrice: total(),
-      userInfo
-    }))
-    dispatch(resetOrder())
-    dispatch(resetCart())
-    onSuccessOpen()
-  }
+  const onPaymentSuccess = async (data: OnApproveData) => {
+    dispatch(
+      createOrder({
+        orderItems: cart,
+        shippingAddress,
+        paymentMethod: data.paymentSource,
+        paymentDetails: data,
+        shippingPrice: shipping(),
+        totalPrice: total(),
+        userInfo,
+      })
+    );
+    dispatch(resetOrder());
+    dispatch(resetCart());
+    onSuccessOpen();
+  };
 
   const onPaymentError = () => {
     onErrorOpen()

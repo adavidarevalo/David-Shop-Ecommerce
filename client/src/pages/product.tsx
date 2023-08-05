@@ -30,6 +30,7 @@ import { createProductReview, getProduct, resetProductError } from '../redux/act
 import { MinusIcon, SmallAddIcon, StarIcon } from '@chakra-ui/icons';
 import { addCartItem } from '../redux/actions/cart.actions';
 import { UserState } from '../redux/slices/user';
+import { AppDispatch } from '../redux/store';
 
 export default function ProductPage() {
   const [comment, setComment] = useState("")
@@ -37,7 +38,7 @@ export default function ProductPage() {
   const [title, setTitle] = useState("")
   const [reviewBoxOpen, setReviewBoxOpen] = useState(false)
     const [amount, setAmount] = useState(1)
-    const dispatch = useDispatch<any>();
+    const dispatch: AppDispatch = useDispatch();
     const toast =  useToast()
 
     const {id} = useParams()

@@ -7,6 +7,7 @@ import { addCartItem } from '../../redux/actions/cart.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartState } from '../../redux/slices/cart';
 import { Product } from '../../types/product';
+import { AppDispatch } from '../../redux/store';
 
 interface Props {
   product: Product
@@ -15,7 +16,7 @@ interface Props {
 export default function ProductCard({ product }: Props) {
   const { productIsNew, stock, image, name, _id, price, rating, numberOfReviews } = product;
 
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch();
 
   const toast = useToast()
 
@@ -29,7 +30,7 @@ export default function ProductCard({ product }: Props) {
         isClosable: true
       })
     } else {
-      dispatch(addCartItem(id, 1) as any)
+      dispatch(addCartItem(id, 1))
       toast({
         description: 'Item has been added.',
         status: "success",

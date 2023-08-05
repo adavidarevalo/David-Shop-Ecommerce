@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ShippingInformationForm } from '../../components/form/shipping_information';
+import { Order } from '../../types/order';
 
 export interface OrderState {
   loading: boolean;
   error: string | null;
   shippingAddress: ShippingInformationForm | null;
-  order: any;
+  order: Order | null;
 }
 
 export const initialState: OrderState = {

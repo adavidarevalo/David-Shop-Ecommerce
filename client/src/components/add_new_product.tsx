@@ -59,6 +59,7 @@ export default function AddNewProduct() {
         <Text fontSize={'sm'}>Brand</Text>
         <Input
           size={'sm'}
+          mb={5}
           value={brand}
           onChange={(e) => setBrand(e.target.value)}
           placeholder="Apple or Samsung, etc"
@@ -75,17 +76,12 @@ export default function AddNewProduct() {
         <Text fontSize={'sm'}>Category</Text>
         <Input
           size={'sm'}
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-          placeholder="Apple or Samsung, etc"
-        />
-        <Text fontSize={'sm'}>Name</Text>
-        <Input
-          size={'sm'}
+          mb={5}
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          placeholder="Electronics"
+          placeholder="Apple or Samsung, etc"
         />
+
         <Text fontSize={'sm'}>Price</Text>
         <Input
           size={'sm'}

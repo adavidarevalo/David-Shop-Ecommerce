@@ -1,4 +1,4 @@
-import { Input, Td, Tooltip, Tr, useDisclosure, Image, Textarea, Flex, FormControl, FormLabel, Badge, Switch, VStack, Button } from '@chakra-ui/react';
+import { Input, Td, Tooltip, Tr, useDisclosure, Image, Textarea, Flex, FormControl, FormLabel, Badge, Switch, VStack, Button, useToast } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { deleteProduct, updateProduct } from '../redux/actions/admin.actions';
@@ -25,6 +25,7 @@ export default function ProductTableItem({ product }: Props) {
   const [image, setImage] = useState(product.image);
 
   const dispatch: AppDispatch = useDispatch();
+  const toast = useToast()
 
   const onSaveProduct = () => {
     dispatch(
@@ -40,6 +41,11 @@ export default function ProductTableItem({ product }: Props) {
         product._id
       )
     );
+    toast({
+      description: 'Product has been updated',
+      status: 'success',
+      isClosable: true,
+    });
   };
 
   return (
@@ -74,7 +80,12 @@ export default function ProductTableItem({ product }: Props) {
         </Td>
         <Td>
           <Flex direction={'column'} gap={2}>
-            <Input type="number" size={'sm'} value={stock} onChange={(e) => setStock(+e.target.value)} />
+            <Input
+              type="number"
+              size={'sm'}
+              value={stock}
+              onChange={(e) => setStock(+e.target.value)}
+            />
             <FormControl display={'flex'} alignItems={'center'}>
               <FormLabel htmlFor="productIsNewFlag" mb={0} fontSize={'sm'}>
                 Enable
@@ -103,14 +114,14 @@ export default function ProductTableItem({ product }: Props) {
           </VStack>
         </Td>
       </Tr>
-      {/* <ConfirmRemovalAlert
+      <ConfirmRemovalAlert
         isOpen={isOpen}
-        onOpen={onOpen}
         onClose={onClose}
         cancelRef={cancelRef}
         itemToDelete={product}
         deleteAction={deleteProduct}
-      /> */}
+        successMessage={"Product has been removed."}
+      />
     </>
   );
 }
