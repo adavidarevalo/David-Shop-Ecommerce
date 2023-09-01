@@ -38,17 +38,17 @@ export default function ConfirmRemovalAlert({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize={'lg'} fontWeight={'bold'}>
-            Delete {itemToDelete.name}
+            Eliminar {itemToDelete.name}
           </AlertDialogHeader>
           <AlertDialogBody>
-            Are you sure? You can&apos;t undo this action afterwards.
+            ¿Está seguro? No podrás deshacer esta acción posteriormente.
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onClose}>
               Cancel
             </Button>
             <Button colorScheme="red" onClick={onDeleteItem} ml={3}>
-              Delete {itemToDelete.name}
+              Eliminar {itemToDelete.name}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

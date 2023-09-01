@@ -34,8 +34,11 @@ export default function AddNewProduct() {
   return (
     <Tr>
       <Td>
-        <Text fontSize={'sm'}>Image File Name</Text>
-        <Tooltip label={'Set the name of your image e.g., iPhone.jpg'} fontSize={'sm'}>
+        <Text fontSize={'sm'}>Nombre del archivo de imagen</Text>
+        <Tooltip
+          label={'Establezca el nombre de su imagen, por ejemplo, iPhone.jpg'}
+          fontSize={'sm'}
+        >
           <Input
             size={'sm'}
             value={image}
@@ -45,26 +48,26 @@ export default function AddNewProduct() {
         </Tooltip>
       </Td>
       <Td>
-        <Text fontSize={'sm'}>Description</Text>
+        <Text fontSize={'sm'}>Descripción</Text>
         <Textarea
           w={'270px'}
           h={'120px'}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           size="sm"
-          placeholder={'Description'}
+          placeholder={'Descripción'}
         />
       </Td>
       <Td>
-        <Text fontSize={'sm'}>Brand</Text>
+        <Text fontSize={'sm'}>Marca</Text>
         <Input
           size={'sm'}
           mb={5}
           value={brand}
           onChange={(e) => setBrand(e.target.value)}
-          placeholder="Apple or Samsung, etc"
+          placeholder="Apple 0 Samsung, etc"
         />
-        <Text fontSize={'sm'}>Name</Text>
+        <Text fontSize={'sm'}>Nombre</Text>
         <Input
           size={'sm'}
           value={name}
@@ -73,16 +76,16 @@ export default function AddNewProduct() {
         />
       </Td>
       <Td>
-        <Text fontSize={'sm'}>Category</Text>
+        <Text fontSize={'sm'}>Categoria</Text>
         <Input
           size={'sm'}
           mb={5}
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          placeholder="Apple or Samsung, etc"
+          placeholder="Apple o Samsung, etc"
         />
 
-        <Text fontSize={'sm'}>Price</Text>
+        <Text fontSize={'sm'}>Precio</Text>
         <Input
           size={'sm'}
           value={price}
@@ -91,14 +94,14 @@ export default function AddNewProduct() {
         />
       </Td>
       <Td>
-        <Text fontSize={'sm'}>Stock</Text>
+        <Text fontSize={'sm'}>Cantidad</Text>
         <Input size={'sm'} value={stock} onChange={(e) => setStock(e.target.value)} />
-        <Text fontSize={'sm'}>New Badge shown on product card</Text>
+        <Text fontSize={'sm'}>Nueva insignia mostrada en la tarjeta del producto</Text>
         <FormControl display={'flex'} alignItems={'center'}>
           <FormLabel htmlFor="productIsNewFlag" mb={0} fontSize={'sm'}>
             Enable
             <Badge rounded={'full'} px={1} mx={1} fontSize={'0.8em'} colorScheme="green">
-              New
+              Nuevo
             </Badge>{' '}
             badge?
           </FormLabel>
@@ -113,7 +116,7 @@ export default function AddNewProduct() {
         <VStack>
           <Button colorScheme="orange" w={'160px'} variant={'outline'} onClick={createNewProduct}>
             <MdDriveFolderUpload style={{ marginRight: '5px' }} />
-            Save Product
+            Guardar Producto
           </Button>
         </VStack>
       </Td>

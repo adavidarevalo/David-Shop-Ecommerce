@@ -39,43 +39,45 @@ export default function RegistrationPage() {
   }, [userInfo, redirect, error, navigate, toast]);
 
   return (
-        <Container maxW={'lg'} py={{ base: '12', md: '24' }} px={{ base: '0', md: '8' }} minH={'4xl'}>
-          <Stack spacing={'8'}>
-            <Stack spacing={'6'}>
-              <Stack spacing={{ base: '2', md: '3' }} textAlign={'center'}>
-                <Heading size={headingBR}>Create an account</Heading>
-                <HStack spacing={'1'} justify={'center'}>
-                  <Text color={'muted'}>Already User?</Text>
-                  <Button as={RouterLink} to='/login' variant={'link'} colorScheme='orange'>
-                    Sign in
-                  </Button>
-                </HStack>
-              </Stack>
-            </Stack>
-            <Box
-              py={{ base: '0', sm: '8' }}
-              px={{ base: '4', md: '10' }}
-              bg={{ boxBr }}
-              boxShadow={{ base: 'none', md: 'xl' }}>
-              <Stack spacing={6}>
-                {error && (
-                  <Alert
-                    status='error'
-                    flexDirection={'column'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    textAlign={'center'}>
-                    <AlertIcon />
-                    <AlertTitle>We are sorry!</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
-                <Stack spacing={5}>
-                  <RegistrationForm/>
-                </Stack>
-              </Stack>
-            </Box>
+    <Container maxW={'lg'} py={{ base: '12', md: '24' }} px={{ base: '0', md: '8' }} minH={'4xl'}>
+      <Stack spacing={'8'}>
+        <Stack spacing={'6'}>
+          <Stack spacing={{ base: '2', md: '3' }} textAlign={'center'}>
+            <Heading size={headingBR}>Crea una cuenta</Heading>
+            <HStack spacing={'1'} justify={'center'}>
+              <Text color={'muted'}>¿Ya eres usuario?</Text>
+              <Button as={RouterLink} to="/login" variant={'link'} colorScheme="orange">
+                Login
+              </Button>
+            </HStack>
           </Stack>
-        </Container>
+        </Stack>
+        <Box
+          py={{ base: '0', sm: '8' }}
+          px={{ base: '4', md: '10' }}
+          bg={{ boxBr }}
+          boxShadow={{ base: 'none', md: 'xl' }}
+        >
+          <Stack spacing={6}>
+            {error && (
+              <Alert
+                status="error"
+                flexDirection={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                textAlign={'center'}
+              >
+                <AlertIcon />
+                <AlertTitle>¡Lo sentimos!</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            <Stack spacing={5}>
+              <RegistrationForm />
+            </Stack>
+          </Stack>
+        </Box>
+      </Stack>
+    </Container>
   );
 }

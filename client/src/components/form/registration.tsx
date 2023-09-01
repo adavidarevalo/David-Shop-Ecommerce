@@ -21,23 +21,40 @@ export default function RegistrationForm() {
 
   return (
     <Formik
-      initialValues={{ name: '', email: '', password: '', confirmPassword: "" }}
+      initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
       validationSchema={registrationSchema}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+    >
       {() => (
         <Form>
-          <TextField type='text' name='name' placeholder='Your first and last name' label='Full name' />
-          <TextField type='text' name='email' placeholder='user@example.com' label='Email' />
-          <PasswordTextField type='password' name='password' label='Password' placeholder='Your password' />
-          <PasswordTextField
-            type='password'
-            name='confirmPassword'
-            label='Confirm Your Password'
-            placeholder='Confirm your password'
+          <TextField
+            type="text"
+            name="name"
+            placeholder="Your first and last name"
+            label="Full name"
           />
-          <Stack spacing={6} mt='10'>
-            <Button colorScheme='orange' size={'lg'} fontSize={'md'} isLoading={loading} type='submit'>
-              Sing up
+          <TextField type="text" name="email" placeholder="user@example.com" label="Email" />
+          <PasswordTextField
+            type="password"
+            name="password"
+            label="Password"
+            placeholder="Your password"
+          />
+          <PasswordTextField
+            type="password"
+            name="confirmPassword"
+            label="Confirm Your Password"
+            placeholder="Confirm your password"
+          />
+          <Stack spacing={6} mt="10">
+            <Button
+              colorScheme="orange"
+              size={'lg'}
+              fontSize={'md'}
+              isLoading={loading}
+              type="submit"
+            >
+              Iniciar Sesión
             </Button>
           </Stack>
         </Form>

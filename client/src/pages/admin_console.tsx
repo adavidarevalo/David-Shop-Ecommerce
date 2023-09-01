@@ -30,14 +30,14 @@ export default function AdminConsole() {
           mb={{ base: 12, md: 'none' }}
         >
           <Heading fontSize={'2xl'} fontWeight={'extrabold'} textAlign={'center'}>
-            Admin Console
+            Consola de Administración
           </Heading>
           <Tabs size={'md'} variant={'enclosed'}>
             <TabList>
-              <Tab>Users</Tab>
-              <Tab>Products</Tab>
-              <Tab>Reviews</Tab>
-              <Tab>Orders</Tab>
+              <Tab>Usuarios</Tab>
+              <Tab>Productos</Tab>
+              <Tab>Reseñas</Tab>
+              <Tab>Pedidos</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>

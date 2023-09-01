@@ -76,11 +76,11 @@ export default function UsersTab() {
             <Table variant={'simple'}>
               <Thead>
                 <Tr>
-                  <Th>Name</Th>
+                  <Th>Nombre</Th>
                   <Th>Email</Th>
-                  <Th>Registered</Th>
-                  <Th>Admin</Th>
-                  <Th>Action</Th>
+                  <Th>Registrado</Th>
+                  <Th>Administrador</Th>
+                  <Th>Acciónes</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -99,7 +99,7 @@ export default function UsersTab() {
                           variant={'outline'}
                           onClick={() => openDeleteConfirmBox(user)}
                         >
-                          Remove User
+                          Eliminar Usuario
                         </Button>
                       </Td>
                     </Tr>
@@ -114,7 +114,7 @@ export default function UsersTab() {
               cancelRef={cancelRef}
               itemToDelete={userToDelete}
               deleteAction={deleteUser}
-              successMessage={"'User has been remove'"}
+              successMessage={"Usuario ha sido eliminado"}
             />
           )}
         </Box>

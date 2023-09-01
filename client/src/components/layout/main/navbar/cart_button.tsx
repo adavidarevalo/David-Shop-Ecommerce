@@ -11,7 +11,7 @@ export default function CartButton() {
 	return (
 		<Box pos="relative" display="inline-block">
 			<Box display={'flex'} alignItems={'center'} >
-				<BiCart fontSize={'20px'} /> Cart
+				<BiCart fontSize={'20px'} /> Carrito
 			</Box>
 			<Box
 				pos="absolute"

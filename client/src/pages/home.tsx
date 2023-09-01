@@ -15,6 +15,8 @@ import { FaArrowRight } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
 
 export default function HomePage() {
+  console.log('XXX ', process.env.REACT_APP_PAYPAL_KEY);
+
   return (
     <Flex align={'center'} justifyContent={'center'} h={{ base: '70vh', lg: '68vh' }} mt="36px">
       <Box maxW="7xl" mx="auto" px={{ base: '0', lg: '12' }} py={{ base: '0', lg: '12' }}>
@@ -30,10 +32,10 @@ export default function HomePage() {
             <Stack spacing={{ base: '8', lg: '10' }}>
               <Stack spacing={{ base: '2', lg: '4' }}>
                 <Heading size="xl" color={useColorModeValue('orange.500', 'orange.300')}>
-                  David Store
+                  Techno Store
                 </Heading>
                 <Heading size="xl" fontWeight="normal">
-                  Your Digital Haven: Explore, Shop, Delight!
+                  Su paraíso digital: ¡explore, compre, disfrute!
                 </Heading>
               </Stack>
               <HStack spacing="3">
@@ -44,7 +46,7 @@ export default function HomePage() {
                   fontWeight="bold"
                   fontSize="lg"
                 >
-                  Discover now
+                  Descubre ahora
                 </Link>
                 <Icon color={useColorModeValue('orange.500', 'orange.300')} as={FaArrowRight} />
               </HStack>

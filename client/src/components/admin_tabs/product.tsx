@@ -44,7 +44,7 @@ export default function ProductTab() {
       {error && loading === false && (
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>We are sorry!</AlertTitle>
+          <AlertTitle>¡Lo sentimos!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -71,7 +71,7 @@ export default function ProductTab() {
                   <Box flex={1} textAlign={'right'}>
                     <Box>
                       <Text mr={'8px'} fontWeight={'bold'}>
-                        Add a new Product
+                        Añadir un nuevo producto
                       </Text>
                     </Box>
                   </Box>
@@ -89,11 +89,11 @@ export default function ProductTab() {
           <Table variant={'simple'} size={'lg'}>
             <Thead>
               <Tr>
-                <Th>Image</Th>
-                <Th>Description</Th>
-                <Th>Brands & Name</Th>
-                <Th>Category</Th>
-                <Th>Stock & New Badge</Th>
+                <Th>Imagen</Th>
+                <Th>Descripción</Th>
+                <Th>Marcas y Nombre</Th>
+                <Th>Categoría</Th>
+                <Th>Stock y Nueva Badge</Th>
               </Tr>
             </Thead>
             <Tbody>

@@ -37,13 +37,13 @@ export default function PaypalButton({
     >
       <PayPalButtons
         disabled={isButtonDisabled}
-        forceReRender={[0.01]}
+        forceReRender={[total]}
         createOrder={async (_, actions) => {
           return await actions.order.create({
             purchase_units: [
               {
                 amount: {
-                  value: `${0.01}`,
+                  value: `${total}`,
                 },
               },
             ],

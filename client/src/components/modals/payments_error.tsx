@@ -26,12 +26,7 @@ export default function PaymentsErrorModal({
         <ModalOverlay />
         <ModalContent>
           <ModalBody>
-            <Wrap
-              justify={'center'}
-              direction={'column'}
-              align={'center'}
-              mt={'20px'}
-            >
+            <Wrap justify={'center'} direction={'column'} align={'center'} mt={'20px'}>
               <Alert
                 status="error"
                 variant={'subtle'}
@@ -43,11 +38,9 @@ export default function PaymentsErrorModal({
               >
                 <AlertIcon boxSize={'55px'} />
                 <AlertTitle pt={'8px'} fontSize={'xl'}>
-                  Payment Failed!
+                  ¡Pago fallido!
                 </AlertTitle>
-                <AlertDescription>
-                  We couldn&apos;t process your payment.
-                </AlertDescription>
+                <AlertDescription>No pudimos procesar su pago.</AlertDescription>
               </Alert>
             </Wrap>
           </ModalBody>

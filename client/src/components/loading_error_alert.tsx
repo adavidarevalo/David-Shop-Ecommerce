@@ -13,7 +13,7 @@ export default function LoadingErrorAlert({ error, loading }: Props) {
       {error && loading === false && (
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>We are sorry!</AlertTitle>
+          <AlertTitle>¡Lo sentimos!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}

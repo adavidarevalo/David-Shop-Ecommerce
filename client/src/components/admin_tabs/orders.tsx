@@ -39,7 +39,7 @@ export default function OrdersTab() {
       {error && loading === false && (
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>We are sorry!</AlertTitle>
+          <AlertTitle>¡Lo sentimos!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -63,15 +63,15 @@ export default function OrdersTab() {
             <Table variant={'simple'}>
               <Thead>
                 <Tr>
-                  <Th>Date</Th>
-                  <Th>Name</Th>
+                  <Th>Fecha</Th>
+                  <Th>Nombre</Th>
                   <Th>Email</Th>
-                  <Th>Shipping Info</Th>
-                  <Th>Items Ordered</Th>
-                  <Th>Payment method</Th>
-                  <Th>Shipping Price</Th>
+                  <Th>Envio Info</Th>
+                  <Th>Items Ordenados</Th>
+                  <Th>Metodos de pagos</Th>
+                  <Th>Precio de Envio</Th>
                   <Th>Total</Th>
-                  <Th>Delivered</Th>
+                  <Th>Entregado</Th>
                   <Th>Actions</Th>
                 </Tr>
               </Thead>
@@ -84,15 +84,15 @@ export default function OrdersTab() {
                       <Td>{order.email}</Td>
                       <Td>
                         <Text>
-                          <i>Address: </i>
+                          <i>Direccion: </i>
                           {order.shippingAddress.address}
                         </Text>
                         <Text>
-                          <i>City: </i>
+                          <i>Ciudad: </i>
                           {order.shippingAddress.postalCode} {order.shippingAddress.city}
                         </Text>
                         <Text>
-                          <i>Country: </i>
+                          <i>Pais: </i>
                           {order.shippingAddress.country}
                         </Text>
                       </Td>
@@ -110,7 +110,7 @@ export default function OrdersTab() {
                       <Td>
                         <Flex direction={'column'}>
                           <Button variant={'outline'} onClick={() => openDeleteConfirmBox(order)}>
-                            <DeleteIcon mr={'5px'} /> Remove Order
+                            <DeleteIcon mr={'5px'} /> Eliminar Orden
                           </Button>
                           {!order.isDelivered && (
                             <Button
@@ -119,7 +119,7 @@ export default function OrdersTab() {
                               onClick={() => onSetToDelivered(order)}
                             >
                               <TbTruckDelivery />
-                              <Text ml={'5px'}>Delivered</Text>
+                              <Text ml={'5px'}>Entregado</Text>
                             </Button>
                           )}
                         </Flex>

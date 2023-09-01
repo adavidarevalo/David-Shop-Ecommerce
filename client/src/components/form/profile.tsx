@@ -79,7 +79,7 @@ export default function ProfileForm() {
               isLoading={loading}
               type="submit"
             >
-              Update
+              Actualizar
             </Button>
           </Stack>
         </Form>

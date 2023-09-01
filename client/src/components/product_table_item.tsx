@@ -90,7 +90,7 @@ export default function ProductTableItem({ product }: Props) {
               <FormLabel htmlFor="productIsNewFlag" mb={0} fontSize={'sm'}>
                 Enable
                 <Badge rounded={'full'} px={1} mx={1} fontSize={'0.8em'} colorScheme="green">
-                  New
+                  Nuevo
                 </Badge>{' '}
                 badge?
               </FormLabel>
@@ -105,11 +105,11 @@ export default function ProductTableItem({ product }: Props) {
         <Td>
           <VStack>
             <Button colorScheme="red" w={'160px'} variant={'outline'} onClick={onOpen}>
-              <DeleteIcon mr={'5px'} /> Remove Product
+              <DeleteIcon mr={'5px'} /> Eliminar Producto
             </Button>
             <Button colorScheme="orange" w={'160px'} variant={'outline'} onClick={onSaveProduct}>
               <MdOutlineDataSaverOn style={{ marginRight: '5px' }} />
-              Save Changes
+              Guardar cambios
             </Button>
           </VStack>
         </Td>

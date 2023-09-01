@@ -94,13 +94,20 @@ export default function ProductPage() {
     <Wrap spacing={'30px'} justify={'center'} minH={'90vh'}>
       {loading && (
         <Stack direction={'row'} spacing={4} display={'flex'} w={'100vw'} justify={'center'}>
-          <Spinner mt={20} thickness='2px' speed='0.65s' emptyColor='gray.200' color='orange.500' size={'xl'} />
+          <Spinner
+            mt={20}
+            thickness="2px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="orange.500"
+            size={'xl'}
+          />
         </Stack>
       )}
       {loading === false && error && (
-        <Alert status='error'>
+        <Alert status="error">
           <AlertIcon />
-          <AlertTitle>We are sorry!</AlertTitle>
+          <AlertTitle>¡Lo sentimos!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -109,21 +116,23 @@ export default function ProductPage() {
           maxW={{ base: '3xl', lg: '5xl' }}
           mx={'auto'}
           px={{ base: '4', md: '8', lg: '12' }}
-          py={{ base: '6', md: '8', lg: '12' }}>
+          py={{ base: '6', md: '8', lg: '12' }}
+        >
           <Stack direction={{ base: 'column', lg: 'row' }} align={{ lg: 'flex-start' }}>
             <Stack
               pr={{ base: '0', md: '12' }}
               spacing={{ base: '8', md: '4' }}
-              flex='1.5'
-              mb={{ base: '12', md: 'none' }}>
+              flex="1.5"
+              mb={{ base: '12', md: 'none' }}
+            >
               {product.productIsNew && (
-                <Badge rounded={'full'} w={'40px'} fontSize={'0.8em'} colorScheme='green'>
-                  New
+                <Badge rounded={'full'} w={'50px'} fontSize={'0.8em'} colorScheme="green">
+                  Nuevo
                 </Badge>
               )}
               {product.stock <= 0 && (
-                <Badge rounded={'full'} w={'70px'} fontSize={'0.8em'} colorScheme='red'>
-                  Sold Out
+                <Badge rounded={'full'} w={'70px'} fontSize={'0.8em'} colorScheme="red">
+                  Agotado
                 </Badge>
               )}
               <Heading fontSize={'2xl'} fontWeight={'extrabold'}>
@@ -141,13 +150,19 @@ export default function ProductPage() {
                       <StarIcon color={product.rating >= 5 ? 'orange.500' : 'gray.200'} />
                     </HStack>
                     <Text fontSize={'md'} fontWeight={'bold'} ml={'4px'}>
-                      {product.numberOfReviews} Reviews
+                      {product.numberOfReviews} Reseñas
                     </Text>
                   </Flex>
                 </Box>
                 <Text>{product.description}</Text>
-                <Text fontWeight={'bold'}>Quantity</Text>
-                <Flex w='170px' p={'5px'} border={'1px'} borderColor={'gray.200'} alignItems={'center'}>
+                <Text fontWeight={'bold'}>Cantidad</Text>
+                <Flex
+                  w="170px"
+                  p={'5px'}
+                  border={'1px'}
+                  borderColor={'gray.200'}
+                  alignItems={'center'}
+                >
                   <Button isDisabled={amount <= 1} onClick={() => changeAmount('minus')}>
                     <MinusIcon />
                   </Button>
@@ -156,26 +171,30 @@ export default function ProductPage() {
                     <SmallAddIcon w={'20px'} h={'25px'} />
                   </Button>
                 </Flex>
-                <Button isDisabled={product.stock === 0} colorScheme='orange' onClick={() => addItem()}>
-                  Add to Cart
+                <Button
+                  isDisabled={product.stock === 0}
+                  colorScheme="orange"
+                  onClick={() => addItem()}
+                >
+                  Añadir a la cesta
                 </Button>
                 <Stack w={'270px'}>
                   <Flex alignItems={'center'}>
-                    <BiPackage size='20px' />
+                    <BiPackage size="20px" />
                     <Text fontWeight={'medium'} fontSize={'sm'} ml={'2'}>
-                      Free shipping if order is above $1000
+                      Envío gratis si el pedido es superior a $1000
                     </Text>
                   </Flex>
                   <Flex alignItems={'center'}>
                     <BiCheckShield size={'20px'} />
                     <Text fontWeight={'medium'} fontSize={'sm'} ml={'2'}>
-                      2 year extended warranty
+                      Garantía extendida de 2 años
                     </Text>
                   </Flex>
                   <Flex alignItems={'center'}>
                     <BiSupport size={'20px'} />
                     <Text fontWeight={'medium'} fontSize={'sm'} ml={'2'}>
-                      We&apos;re here for you 24/7
+                      Estamos aquí para usted 24 horas al día, 7 días a la semana
                     </Text>
                   </Flex>
                 </Stack>
@@ -186,45 +205,62 @@ export default function ProductPage() {
             </Flex>
           </Stack>
           {userInfo?._id && (
-          <>
-          <Tooltip label={hasUserReviewed ? "You have already reviewed this product" : ""} fontSize={"md"}>
             <>
-                <Button isDisabled={hasUserReviewed} my="20px" w={"140px"} colorScheme='orange' onClick={() => setReviewBoxOpen(prev => !prev)}>
-                  Write a review
-                </Button>
+              <Tooltip
+                label={hasUserReviewed ? 'You have already reviewed this product' : ''}
+                fontSize={'md'}
+              >
+                <>
+                  <Button
+                    isDisabled={hasUserReviewed}
+                    my="20px"
+                    w={'140px'}
+                    colorScheme="orange"
+                    onClick={() => setReviewBoxOpen((prev) => !prev)}
+                  >
+                    Escribe una reseña
+                  </Button>
                   {reviewBoxOpen && (
-                    <Stack mb={"20px"}>
+                    <Stack mb={'20px'}>
                       <Wrap>
-                        <HStack spacing={"2px"}>
-                          <Button variant={"outline"} onClick={() => setRating(1)}>
-                            <StarIcon color={"orange.500"} />
+                        <HStack spacing={'2px'}>
+                          <Button variant={'outline'} onClick={() => setRating(1)}>
+                            <StarIcon color={'orange.500'} />
                           </Button>
-                          <Button variant={"outline"} onClick={() => setRating(2)}>
-                            <StarIcon color={rating >= 2 ? "orange.500" : "gray.200"} />
+                          <Button variant={'outline'} onClick={() => setRating(2)}>
+                            <StarIcon color={rating >= 2 ? 'orange.500' : 'gray.200'} />
                           </Button>
-                          <Button variant={"outline"} onClick={() => setRating(3)}>
-                            <StarIcon color={rating >= 3 ? "orange.500" : "gray.200"} />
+                          <Button variant={'outline'} onClick={() => setRating(3)}>
+                            <StarIcon color={rating >= 3 ? 'orange.500' : 'gray.200'} />
                           </Button>
-                          <Button variant={"outline"} onClick={() => setRating(4)}>
-                            <StarIcon color={rating >= 4 ? "orange.500" : "gray.200"} />
+                          <Button variant={'outline'} onClick={() => setRating(4)}>
+                            <StarIcon color={rating >= 4 ? 'orange.500' : 'gray.200'} />
                           </Button>
-                          <Button variant={"outline"} onClick={() => setRating(5)}>
-                            <StarIcon color={rating >= 5 ? "orange.500" : "gray.200"} />
+                          <Button variant={'outline'} onClick={() => setRating(5)}>
+                            <StarIcon color={rating >= 5 ? 'orange.500' : 'gray.200'} />
                           </Button>
                         </HStack>
                       </Wrap>
-                      <Input onChange={(e) => setTitle(e.target.value)} placeholder='Review title (optional)' />
-                      <Textarea onChange={(e) => setComment(e.target.value)} placeholder={`The ${product.name} is...`} />
-                      <Button w={"140px"} colorScheme='orange' onClick={onSubmit}>Publish review</Button>
+                      <Input
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Review title (optional)"
+                      />
+                      <Textarea
+                        onChange={(e) => setComment(e.target.value)}
+                        placeholder={`The ${product.name} is...`}
+                      />
+                      <Button w={'140px'} colorScheme="orange" onClick={onSubmit}>
+                        Publicar reseña
+                      </Button>
                     </Stack>
                   )}
+                </>
+              </Tooltip>
             </>
-          </Tooltip>
-          </>
           )}
           <Stack>
             <Text fontSize={'xl'} fontWeight={'bold'}>
-              Reviews
+              Reseñas
             </Text>
             <SimpleGrid minChildWidth={'300px'} spacingX={'40px'} spacingY={'20px'}>
               {(product?.reviews || []).map((review) => (
@@ -239,9 +275,9 @@ export default function ProductPage() {
                       {review?.title && review.title}
                     </Text>
                   </Flex>
-                  <Box py='12px'>{review.comment}</Box>
+                  <Box py="12px">{review.comment}</Box>
                   <Text fontSize={'sm'} color={'gray.400'}>
-                    by {review.name}, {new Date(review.createdAt).toDateString()}
+                    Por {review.name}, {new Date(review.createdAt).toDateString()}
                   </Text>
                 </Box>
               ))}

@@ -29,24 +29,30 @@ export default function ProductsPage() {
 
   return (
     <Wrap spacing={'30px'} justify={'center'} minHeight={'100vh'}>
-      {error &&
-        loading === false && (
-            <Alert status='error'>
-              <AlertIcon />
-              <AlertTitle>We are sorry!</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+      {error && loading === false && (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle>¡Lo sentimos!</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
       {loading && (
         <Stack direction={'row'} spacing={4} display={'flex'} w={'100vw'} justify={'center'}>
-          <Spinner mt={20} thickness='2px' speed='0.65s' emptyColor='gray.200' color='orange.500' size={'xl'} />
+          <Spinner
+            mt={20}
+            thickness="2px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="orange.500"
+            size={'xl'}
+          />
         </Stack>
       )}
       {products.length > 0 &&
         loading === false &&
         products.map((product) => (
           <WrapItem key={product._id}>
-            <Center w='250px' h='550px'>
+            <Center w="250px" h="550px">
               <ProductCard product={product} />
             </Center>
           </WrapItem>

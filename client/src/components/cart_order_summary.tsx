@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { type CartState } from '../redux/slices/cart';
 import {
   Badge,
   Button,
@@ -46,7 +45,7 @@ export default function CartOrderSummary(): JSX.Element {
         </Flex>
         <Flex justify={'space-between'}>
           <Text fontWeight={'medium'} color={mode('gray.600', 'gray.400')}>
-            Shipping
+            Envio
           </Text>
           <Text fontWeight={'medium'}>
             {subtotal <= 1000 ? (
@@ -58,7 +57,7 @@ export default function CartOrderSummary(): JSX.Element {
                 fontSize={'0.8em'}
                 colorScheme="green"
               >
-                Free
+                Gratis
               </Badge>
             )}
           </Text>
@@ -68,7 +67,7 @@ export default function CartOrderSummary(): JSX.Element {
             Total
           </Text>
           <Text fontSize={'lg'} fontWeight={'semibold'}>
-            ${subtotal <= 1000 ? +subtotal + +standardShipping : +subtotal}
+            ${(subtotal <= 1000 ? +subtotal + +standardShipping : +subtotal).toFixed(2)}
           </Text>
         </Flex>
       </Stack>

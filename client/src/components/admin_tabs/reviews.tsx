@@ -80,7 +80,7 @@ export default function ReviewsTabsTab() {
       {error && loading === false && (
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>We are sorry!</AlertTitle>
+          <AlertTitle>¡Lo sentimos!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -114,7 +114,7 @@ export default function ReviewsTabsTab() {
                             </Text>
                             <Spacer />
                             <Text mr={'8px'} fontWeight={'bold'}>
-                              ({product.reviews?.length} Reviews)
+                              ({product.reviews?.length} Reseñas)
                             </Text>
                           </Flex>
                         </Box>
@@ -125,11 +125,11 @@ export default function ReviewsTabsTab() {
                         <Table size={'sm'}>
                           <Thead>
                             <Tr>
-                              <Th>Username</Th>
-                              <Th>Rating</Th>
-                              <Th>Title</Th>
-                              <Th>Comment</Th>
-                              <Th>Created</Th>
+                              <Th>Nombre de usuario</Th>
+                              <Th>Clasificación</Th>
+                              <Th>Titulo</Th>
+                              <Th>Comentario</Th>
+                              <Th>Creado</Th>
                             </Tr>
                           </Thead>
                           <Tbody>
@@ -166,14 +166,14 @@ export default function ReviewsTabsTab() {
               <AlertDialogOverlay>
                 <AlertDialogContent>
                   <AlertDialogBody>
-                    Are you sure? You can&apos;t undo this action afterwards.
+                    ¿Está seguro? No podrás deshacer esta acción posteriormente.
                   </AlertDialogBody>
                   <AlertDialogFooter>
                     <Button ref={cancelRef} onClick={onClose}>
                       Cancel
                     </Button>
                     <Button colorScheme="red" onClick={onDeleteItem} ml={3}>
-                      Delete
+                      Eliminar
                     </Button>
                   </AlertDialogFooter>
                 </AlertDialogContent>

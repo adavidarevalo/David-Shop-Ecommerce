@@ -5,6 +5,7 @@
   "proxy": "http://localhost:4000",
   "type": "module",
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.1",
     "@chakra-ui/icons": "^2.1.0",
     "@chakra-ui/react": "^2.8.0",
     "@emotion/react": "^11.11.1",

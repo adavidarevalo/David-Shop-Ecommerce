@@ -49,20 +49,26 @@ export default function PaymentsSuccessModal({ isOpen, onClose }: Props) {
                 alignItems={'center'}
                 justifyContent={'center'}
                 textAlign={'center'}
-                height={'auto'}>
+                height={'auto'}
+              >
                 <AlertIcon boxSize={'55px'} />
                 <AlertTitle pt={'8px'} fontSize={'xl'}>
-                  Payment Successful!
+                  Pago exitosa!
                 </AlertTitle>
                 <Stack mt={'20px'} minW={'200px'}>
-                  <Button colorScheme="teal" variant={'outline'} as={RouterLink} to={'/your-orders'}>
-                    Your Orders
+                  <Button
+                    colorScheme="teal"
+                    variant={'outline'}
+                    as={RouterLink}
+                    to={'/your-orders'}
+                  >
+                    Tus ordenes
                   </Button>
                   <Button colorScheme="teal" variant={'outline'} as={RouterLink} to={'/products'}>
-                    Products
+                    Productos
                   </Button>
                   <Button colorScheme="teal" variant={'outline'} onClick={logoutHandler}>
-                    Logout
+                    Cerrar Sesión
                   </Button>
                 </Stack>
               </Alert>

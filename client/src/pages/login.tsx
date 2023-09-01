@@ -50,11 +50,11 @@ export default function LoginPage() {
       <Stack spacing={'8'}>
         <Stack spacing={'6'}>
           <Stack spacing={{ base: '2', md: '3' }} textAlign={'center'}>
-            <Heading size={headingBR}>Log in to your account</Heading>
+            <Heading size={headingBR}>Ingrese a su cuenta</Heading>
             <HStack spacing={'1'} justify={'center'}>
-              <Text color={'muted'}>Don&apos;t have an account?</Text>
+              <Text color={'muted'}>¿No tienes una cuenta?</Text>
               <Button as={RouterLink} to="/registration" variant={'link'} colorScheme="orange">
-                Sign up
+                Cree una cuenta
               </Button>
             </HStack>
           </Stack>
@@ -75,7 +75,7 @@ export default function LoginPage() {
                 textAlign={'center'}
               >
                 <AlertIcon />
-                <AlertTitle>We are sorry!</AlertTitle>
+                <AlertTitle>¡Lo sentimos!</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
