@@ -58,7 +58,7 @@ export default function OrdersTab() {
         </Wrap>
       )}
       {loading === false && error === null && (
-        <Box>
+        <Box maxW={"90vw"}>
           <TableContainer>
             <Table variant={'simple'}>
               <Thead>

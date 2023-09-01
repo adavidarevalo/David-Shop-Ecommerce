@@ -77,6 +77,31 @@ export const productsSlice = createSlice({
       state.error = null;
       state.loading = false;
     },
+    deleteProductReviewAction: (state, { payload }) => {
+      state.error = null;
+      state.loading = false;
+      state.product = deleteReview(payload.productId, payload.reviewId, [
+        state?.product as Product,
+      ])[0];
+    },
+    updateProductReviewAction: (state, { payload }) => {
+      const reviews = (state.product?.reviews || []).map((review) => {
+        if (review._id === payload.reviewId) {
+          review.rating = payload.review.rating || review.rating;
+          review.comment = payload.review.comment || review.comment;
+          review.title = payload.review.title || review.title;
+        }
+        return review;
+      });
+      state.error = null;
+      state.loading = false;
+      if (state.product) {
+        state.product = {
+          ...state.product,
+          reviews,
+        };
+      }
+    },
   },
 });
 
@@ -91,6 +116,8 @@ export const {
   setDeleteProduct,
   removedReview,
   setUpdateProduct,
+  deleteProductReviewAction,
+  updateProductReviewAction,
 } = productsSlice.actions;
 export default productsSlice.reducer;
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   AlertDescription,
@@ -21,74 +21,114 @@ import {
   Input,
   Textarea,
 } from '@chakra-ui/react';
-import { BiPackage, BiCheckShield, BiSupport } from 'react-icons/bi';
+import { BiPackage, BiCheckShield, BiSupport, BiSolidTrashAlt } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 import { ProductState } from '../redux/slices/product';
 import { CartState } from '../redux/slices/cart';
-import { createProductReview, getProduct, resetProductError } from '../redux/actions/product.actions';
+import {
+  createProductReview,
+  deleteProductReview,
+  updateProductReview,
+  getProduct,
+  resetProductError,
+} from '../redux/actions/product.actions';
 import { MinusIcon, SmallAddIcon, StarIcon } from '@chakra-ui/icons';
 import { addCartItem } from '../redux/actions/cart.actions';
 import { UserState } from '../redux/slices/user';
 import { AppDispatch } from '../redux/store';
+import { BsPencilSquare } from 'react-icons/bs';
+import { Review } from '../types/product';
 
 export default function ProductPage() {
-  const [comment, setComment] = useState("")
-  const [rating, setRating] = useState(1)
-  const [title, setTitle] = useState("")
-  const [reviewBoxOpen, setReviewBoxOpen] = useState(false)
-    const [amount, setAmount] = useState(1)
-    const dispatch: AppDispatch = useDispatch();
-    const toast =  useToast()
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(1);
+  const [title, setTitle] = useState('');
+  const [reviewBoxOpen, setReviewBoxOpen] = useState(false);
+  const [amount, setAmount] = useState(1);
+  const [reviewToUpdate, setReviewToUpdate] = useState<Review | null>(null);
+  const dispatch: AppDispatch = useDispatch();
+  const toast = useToast();
 
-    const {id} = useParams()
-    const products = useSelector((state: { products: ProductState }) => state.products);
+  const { id } = useParams();
+  const products = useSelector((state: { products: ProductState }) => state.products);
 
-    const { loading, error, product, reviewSend } = products;
+  const { loading, error, product, reviewSend } = products;
 
-    const cartContent = useSelector((state: { cart: CartState }) => state.cart);
-    const { cart } = cartContent;
+  const cartContent = useSelector((state: { cart: CartState }) => state.cart);
+  const { cart } = cartContent;
 
-  const user = useSelector((state: { user: UserState }) => state.user)
+  const user = useSelector((state: { user: UserState }) => state.user);
 
-  const { userInfo } = user
+  const { userInfo } = user;
 
-    useEffect(() => {
-      id && dispatch(getProduct(id));
+  useEffect(() => {
+    id && dispatch(getProduct(id));
 
-      if (reviewSend) {
-        toast({description: "Product review saved", status: "success", isClosable: true})
-        dispatch(resetProductError())
-        setReviewBoxOpen(false)
-      }
-    }, [dispatch, id, cart, reviewSend]);
+    if (reviewSend) {
+      toast({ description: 'Product review saved', status: 'success', isClosable: true });
+      dispatch(resetProductError());
+      setReviewBoxOpen(false);
+    }
+  }, [dispatch, id, cart, reviewSend]);
 
-    const changeAmount = (input: 'minus' | 'plus') => {
-        if (input === "plus") {
-            setAmount((prevAmount) => ++prevAmount);
-        } 
-        if (input === "minus") {
-            setAmount((prevAmount) => --prevAmount);
-        }
-    };
+  const changeAmount = (input: 'minus' | 'plus') => {
+    if (input === 'plus') {
+      setAmount((prevAmount) => ++prevAmount);
+    }
+    if (input === 'minus') {
+      setAmount((prevAmount) => --prevAmount);
+    }
+  };
 
   const hasUserReviewed = useMemo(() => {
-      return product?.reviews?.some(item => item.user === userInfo?._id)
-  }, [product, userInfo])
+    return product?.reviews?.some((item) => item.user === userInfo?._id);
+  }, [product, userInfo]);
 
-    const onSubmit = () => {
-      dispatch(createProductReview(product?._id as string, userInfo?._id as string, comment, rating, title))
-    }
+  const onSubmit = () => {
+    dispatch(
+      createProductReview(product?._id as string, userInfo?._id as string, comment, rating, title)
+    );
+  };
 
-    const addItem = () => {
-        dispatch(addCartItem(id as string, amount));
-        toast({ 
-            description: "Item has been added.",
-            status: "success",
-            isClosable: true
-        })
-    }
-    
+  const addItem = () => {
+    dispatch(addCartItem(id as string, amount));
+    toast({
+      description: 'Item has been added.',
+      status: 'success',
+      isClosable: true,
+    });
+  };
+
+  const updateReview = (review: Review) => {
+    setReviewToUpdate(review);
+    setComment(review.comment);
+    setRating(review.rating);
+    setTitle(review.title);
+    setReviewBoxOpen(true);
+  };
+
+  const deleteReview = (reviewId: string) => {
+    dispatch(deleteProductReview(id as string, reviewId));
+    toast({
+      description: 'Review has been deleted.',
+      status: 'success',
+      isClosable: true,
+    });
+  };
+
+  const handleEditReview = () => {
+    dispatch(updateProductReview(id as string, reviewToUpdate?._id as string, {
+      comment,
+      rating,
+      title,
+    }));
+    setComment('');
+    setTitle('');
+    setRating(0);
+    setReviewToUpdate(null);
+    setReviewBoxOpen(false);
+  };
 
   return (
     <Wrap spacing={'30px'} justify={'center'} minH={'90vh'}>
@@ -214,7 +254,7 @@ export default function ProductPage() {
                   <Button
                     isDisabled={hasUserReviewed}
                     my="20px"
-                    w={'140px'}
+                    w={'160px'}
                     colorScheme="orange"
                     onClick={() => setReviewBoxOpen((prev) => !prev)}
                   >
@@ -242,16 +282,24 @@ export default function ProductPage() {
                         </HStack>
                       </Wrap>
                       <Input
+                        value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Review title (optional)"
                       />
                       <Textarea
+                        value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         placeholder={`The ${product.name} is...`}
                       />
-                      <Button w={'140px'} colorScheme="orange" onClick={onSubmit}>
-                        Publicar reseña
-                      </Button>
+                      {reviewToUpdate ? (
+                        <Button w={'140px'} colorScheme="orange" onClick={handleEditReview}>
+                          Editar reseña
+                        </Button>
+                      ) : (
+                        <Button w={'140px'} colorScheme="orange" onClick={onSubmit}>
+                          Publicar reseña
+                        </Button>
+                      )}
                     </Stack>
                   )}
                 </>
@@ -274,6 +322,12 @@ export default function ProductPage() {
                     <Text fontWeight={'semibold'} ml={'4px'}>
                       {review?.title && review.title}
                     </Text>
+                    {review.user === userInfo?._id && (
+                      <Flex ml={10} cursor={'pointer'}>
+                        <BsPencilSquare onClick={() => updateReview(review)} />
+                        <BiSolidTrashAlt onClick={() => deleteReview(review._id)} />
+                      </Flex>
+                    )}
                   </Flex>
                   <Box py="12px">{review.comment}</Box>
                   <Text fontSize={'sm'} color={'gray.400'}>

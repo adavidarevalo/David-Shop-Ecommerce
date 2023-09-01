@@ -6,6 +6,8 @@ import {
   setProduct,
   productReviewed,
   resetError,
+  deleteProductReviewAction,
+  updateProductReviewAction,
 } from '../slices/product';
 import axios from 'axios';
 import { AppState } from '../store';
@@ -89,3 +91,69 @@ export const createProductReview =
 export const resetProductError = () => async (dispatch: Dispatch) => {
   dispatch(resetError());
 };
+
+export const deleteProductReview =
+  (productId: string, reviewId: string) => async (dispatch: Dispatch, getState: () => AppState) => {
+    dispatch(setLoading(true));
+    const {
+      user: { userInfo },
+    } = getState();
+
+    try {
+      const config = {
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${userInfo?.token}`,
+        },
+      };
+      await axios.delete(`/api/products/review/${productId}/${reviewId}`, config);
+      dispatch(deleteProductReviewAction({ productId, reviewId }));
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error?.response?.data?.error ||
+          error?.message ||
+          'An unexpected error occurred. Please try again later.';
+
+        dispatch(setError(errorMessage));
+      } else {
+        const errorMessage = 'An unexpected error occurred. Please try again later.';
+        dispatch(setError(errorMessage));
+      }
+    }
+  };
+
+export const updateProductReview =
+  (
+    productId: string,
+    reviewId: string,
+    review: { title: string; comment: string; rating: number }
+  ) =>
+  async (dispatch: Dispatch, getState: () => AppState) => {
+    dispatch(setLoading(true));
+    const {
+      user: { userInfo },
+    } = getState();
+    try {
+      const config = {
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${userInfo?.token}`,
+        },
+      };
+      await axios.put(`/api/products/review/${productId}/${reviewId}`, review, config);
+      dispatch(updateProductReviewAction({ reviewId, review }));
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error?.response?.data?.error ||
+          error?.message ||
+          'An unexpected error occurred. Please try again later.';
+
+        dispatch(setError(errorMessage));
+      } else {
+        const errorMessage = 'An unexpected error occurred. Please try again later.';
+        dispatch(setError(errorMessage));
+      }
+    }
+  };

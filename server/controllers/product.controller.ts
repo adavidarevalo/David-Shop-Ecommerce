@@ -5,6 +5,7 @@ import { Product } from '../models/product.model';
 import asyncHandler from 'express-async-handler';
 import { User } from '../models/user.model';
 import { Types } from 'mongoose';
+import { User as UserInterface } from '../types/user';
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
@@ -57,7 +58,9 @@ export const createProductReview = asyncHandler(async (req: Request, res: Respon
         data: null,
         error: 'Product already review.',
       });
+      return;
     }
+
     const review = {
       name: user.name,
       rating: Number(rating),
@@ -71,14 +74,14 @@ export const createProductReview = asyncHandler(async (req: Request, res: Respon
     product.numberOfReviews = product.reviews.length;
 
     product.rating = product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length;
-
     await product.save();
-
     res.status(201).json({
       data: null,
       error: null,
       success: true,
     });
+
+    return;
   }
   res.status(404).json({
     success: false,
@@ -204,6 +207,61 @@ export const removeProductReview = asyncHandler(async (req: Request, res: Respon
   } else {
     product.rating = 1;
   }
+
+  await product.save();
+
+  res.status(200).json({
+    data: null,
+    error: null,
+    success: true,
+  });
+});
+
+export const deleteReviewProduct = asyncHandler(async (req: Request & { user: UserInterface }, res: Response) => {
+  const { productId, reviewId } = req.params;
+
+  const product = await Product.findById(productId);
+
+  const reviews = product.reviews.filter(
+    review => review._id.toString() !== reviewId && review.user.toString() === req.user._id.toString()
+  );
+
+  if (product.reviews.length === reviews.length) {
+    res.status(404).json({
+      data: null,
+      error: 'Review not found.',
+      success: false,
+    });
+    return;
+  }
+
+  product.reviews = new Types.DocumentArray(reviews);
+
+  await product.save();
+
+  res.status(200).json({
+    data: null,
+    error: null,
+    success: true,
+  });
+});
+
+export const updateReviewProduct = asyncHandler(async (req: Request & { user: UserInterface }, res: Response) => {
+  const { productId, reviewId } = req.params;
+  const { title, comment, rating } = req.body;
+
+  const product = await Product.findById(productId);
+
+  const reviews = product.reviews.map(review => {
+    if (review._id.toString() !== reviewId && review.user.toString() === req.user._id.toString()) {
+      review.title = title;
+      review.comment = comment;
+      review.rating = rating;
+    }
+    return review;
+  });
+
+  product.reviews = new Types.DocumentArray(reviews);
 
   await product.save();
 

@@ -30,6 +30,7 @@ import { CgProfile } from 'react-icons/cg'
 import { MdLocalShipping, MdLogout, MdOutlineAdminPanelSettings } from 'react-icons/md'
 import CartButton from './cart_button'
 import { AppDispatch, AppState } from '../../../../redux/store'
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const Navbar = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
@@ -38,6 +39,9 @@ export const Navbar = () => {
 	const { userInfo } = user
 	const dispatch: AppDispatch = useDispatch();
 	const toast = useToast()
+  const { loginWithRedirect } = useAuth0();
+  const { user: u, isAuthenticated, isLoading } = useAuth0();
+
 
 	const logoutHandler = () => {
 		dispatch(logout())
@@ -114,6 +118,7 @@ export const Navbar = () => {
             <>
               <Button
                 as={RouterLink}
+                // onClick={() => loginWithRedirect()}
                 to="/login"
                 p={2}
                 fontSize={'sm'}
