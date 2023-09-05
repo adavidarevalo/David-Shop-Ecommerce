@@ -7,6 +7,7 @@ import UsersTab from '../components/admin_tabs/users';
 import OrdersTab from '../components/admin_tabs/orders';
 import ProductTab from '../components/admin_tabs/product';
 import ReviewsTabs from '../components/admin_tabs/reviews';
+import ReportsTab from '../components/admin_tabs/reports';
 
 export default function AdminConsole() {
   const user = useSelector((state: { user: UserState }) => state.user);
@@ -38,6 +39,7 @@ export default function AdminConsole() {
               <Tab>Productos</Tab>
               <Tab>Reseñas</Tab>
               <Tab>Pedidos</Tab>
+              <Tab>Reportes</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -51,6 +53,9 @@ export default function AdminConsole() {
               </TabPanel>
               <TabPanel>
                 <OrdersTab />
+              </TabPanel>
+              <TabPanel>
+                <ReportsTab />
               </TabPanel>
             </TabPanels>
           </Tabs>

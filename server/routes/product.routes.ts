@@ -14,6 +14,7 @@ import {
 } from '../controllers/product.controller';
 import { protectRouteMiddleware } from '../middleware/auth.midleware';
 import { adminProtectRouteMiddleware } from '../middleware/admin.middleware';
+import { upload } from '../middleware/upload_file.middleware';
 
 const router = Router();
 

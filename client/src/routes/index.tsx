@@ -16,7 +16,7 @@ import Loading from '../components/loading';
 
 const AdminConsole = React.lazy(() => import('../pages/admin_console'));
 
-
+//TODO create a 404 page
 export const router = createBrowserRouter([
   {
     path: '/',

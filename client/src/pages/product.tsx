@@ -20,6 +20,7 @@ import {
   Tooltip,
   Input,
   Textarea,
+  IconButton,
 } from '@chakra-ui/react';
 import { BiPackage, BiCheckShield, BiSupport, BiSolidTrashAlt } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';

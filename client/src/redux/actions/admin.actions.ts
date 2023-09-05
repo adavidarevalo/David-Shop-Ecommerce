@@ -9,6 +9,7 @@ import {
   setLoading,
   setUpdateDelivered,
   userDelete,
+  getReport as getReportSlice,
 } from '../slices/admin';
 import { removedReview, setDeleteProduct, setProducts, setUpdateProduct } from '../slices/product';
 import { AppState } from '../store';
@@ -275,6 +276,36 @@ export const removeReview =
       await axios.put(`api/products/${productId}/${reviewId}`, {}, config);
       dispatch(removedReview({ productId, reviewId }));
       dispatch(setLoading(false));
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMessage =
+          error?.response?.data?.error || error?.message || 'Review could not be remove.';
+        dispatch(setError(errorMessage));
+      } else {
+        const errorMessage = 'An unexpected error occurred. Please try again later.';
+        dispatch(setError(errorMessage));
+      }
+    }
+  };
+
+export const getReport =
+  (from: string, to: string, type: string) =>
+  async (dispatch: Dispatch, getState: () => AppState) => {
+    dispatch(setLoading(true));
+    const {
+      user: { userInfo },
+    } = getState();
+
+    try {
+      const config = {
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${userInfo?.token}`,
+        },
+      };
+
+      const { data } = await axios.post(`api/report`, { from, to, type }, config);
+      dispatch(getReportSlice(data.data));
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage =

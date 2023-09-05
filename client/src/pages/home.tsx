@@ -15,7 +15,6 @@ import { FaArrowRight } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
 
 export default function HomePage() {
-  console.log('XXX ', process.env.REACT_APP_PAYPAL_KEY);
 
   return (
     <Flex align={'center'} justifyContent={'center'} h={{ base: '70vh', lg: '68vh' }} mt="36px">

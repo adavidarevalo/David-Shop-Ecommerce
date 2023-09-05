@@ -7,6 +7,8 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { Auth0Provider } from '@auth0/auth0-react';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

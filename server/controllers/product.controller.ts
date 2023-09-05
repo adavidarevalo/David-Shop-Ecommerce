@@ -6,6 +6,9 @@ import asyncHandler from 'express-async-handler';
 import { User } from '../models/user.model';
 import { Types } from 'mongoose';
 import { User as UserInterface } from '../types/user';
+import multer from 'multer';
+import shortid from 'shortid';
+import fs from 'fs';
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
@@ -92,6 +95,19 @@ export const createProductReview = asyncHandler(async (req: Request, res: Respon
 
 export const createProduct = asyncHandler(async (req: Request, res: Response) => {
   const { brand, name, category, stock, price, image, productIsNew, description } = req.body;
+
+  // const multerConfig = {
+  //   limits: {fileSize: req.user? 1024 * 1024 *10 : 1024 * 1024},
+  //   storage: fileStorage = multer.diskStorage({
+  //     destination: (req, file, cb) => {
+  //       cb( null, __dirname+"/../uploads" )
+  //     },
+  //     filename: (req, file, cb) =>{
+  //       const extention = file.originalname.substring(file.originalname.lastIndexOf("."), file.originalname.length)
+  //       cb( null, `${shortid.generate()}${extention}` )
+  //     }
+  //   })
+  //   }
 
   const newProduct = await Product.create({
     brand,

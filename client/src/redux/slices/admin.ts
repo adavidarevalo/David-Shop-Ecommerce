@@ -7,6 +7,7 @@ export interface AdminState {
   error: string | null;
   userList: User[];
   orders: Order[];
+  report: any[];
 }
 
 export const initialState: AdminState = {
@@ -14,6 +15,7 @@ export const initialState: AdminState = {
   error: null,
   userList: [],
   orders: [],
+  report: [],
 };
 
 export const AdminSlice = createSlice({
@@ -61,6 +63,11 @@ export const AdminSlice = createSlice({
       state.error = null;
       state.loading = false;
     },
+    getReport: (state, { payload }) => {
+      state.error = null;
+      state.report = payload;
+      state.loading = false;
+    },
   },
 });
 
@@ -73,6 +80,7 @@ export const {
   getOrders,
   orderDelete,
   setUpdateDelivered,
+  getReport,
 } = AdminSlice.actions;
 export default AdminSlice.reducer;
 
