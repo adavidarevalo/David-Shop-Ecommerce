@@ -3,8 +3,6 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import { Order } from '../models/order.model';
-import { ObjectId } from 'mongoose';
-import { Product } from '../models/product.model';
 
 export const getReport = asyncHandler(async (req: Request, res: Response) => {
   const { from, to, type } = req.body;

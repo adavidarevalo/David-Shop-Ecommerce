@@ -49,7 +49,7 @@ export default function ProductsPage() {
   }, [products, inputSearchValue]);
 
   return (
-    <Wrap spacing={'30px'} justify={'center'} minHeight={'100vh'}>
+    <>
       {error && loading === false && (
         <Alert status="error">
           <AlertIcon />
@@ -69,9 +69,16 @@ export default function ProductsPage() {
           />
         </Stack>
       )}
-      {products.length > 0 && loading === false && (
-        <Flex flexDirection={'column'}>
-          <Box position={'relative'} mt="10">
+      {!loading && !error && (
+        <>
+          <Box
+            position={'relative'}
+            mt="10"
+            maxWidth={'700px'}
+            justifyContent={'center'}
+            width={'full'}
+            marginInline={'auto'}
+          >
             <Input
               placeholder="Buscar Producto"
               value={inputSearchValue}
@@ -82,16 +89,20 @@ export default function ProductsPage() {
             <SearchIcon position={'absolute'} top="3" right={'10px'} />
           </Box>
           <Wrap spacing={'30px'} justify={'center'} minHeight={'100vh'}>
-            {productsSearched.map((product) => (
-              <WrapItem key={product._id}>
-                <Center w="250px" h="550px">
-                  <ProductCard product={product} />
-                </Center>
-              </WrapItem>
-            ))}
+            {products.length > 0 && loading === false && (
+              <Wrap spacing={'30px'} justify={'center'} minHeight={'100vh'}>
+                {productsSearched.map((product) => (
+                  <WrapItem key={product._id}>
+                    <Center w="250px" h="550px">
+                      <ProductCard product={product} />
+                    </Center>
+                  </WrapItem>
+                ))}
+              </Wrap>
+            )}
           </Wrap>
-        </Flex>
+        </>
       )}
-    </Wrap>
+    </>
   );
 }
