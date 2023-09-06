@@ -158,18 +158,7 @@ export const setDelivered =
   };
 
 export const updateProduct =
-  (
-    brand: string,
-    name: string,
-    category: string,
-    stock: number,
-    price: number,
-    image: string,
-    productIsNew: boolean,
-    description: string,
-    _id: string
-  ) =>
-  async (dispatch: Dispatch, getState: () => AppState) => {
+  (fromData: FormData) => async (dispatch: Dispatch, getState: () => AppState) => {
     dispatch(setLoading(true));
     const {
       user: { userInfo },
@@ -178,15 +167,10 @@ export const updateProduct =
     try {
       const config = {
         headers: {
-          'content-type': 'application/json',
           Authorization: `Bearer ${userInfo?.token}`,
         },
       };
-      const { data } = await axios.put(
-        `api/products`,
-        { brand, name, category, stock, price, image, productIsNew, description, _id },
-        config
-      );
+      const { data } = await axios.put(`api/products`, fromData, config);
       dispatch(setUpdateProduct(data.data));
       dispatch(setLoading(false));
     } catch (error) {
@@ -231,7 +215,7 @@ export const deleteProduct =
   };
 
 export const createProduct =
-  (newProduct: NewProduct) => async (dispatch: Dispatch, getState: () => AppState) => {
+  (newProduct: FormData) => async (dispatch: Dispatch, getState: () => AppState) => {
     dispatch(setLoading(true));
     const {
       user: { userInfo },
@@ -240,12 +224,12 @@ export const createProduct =
     try {
       const config = {
         headers: {
-          'content-type': 'application/json',
           Authorization: `Bearer ${userInfo?.token}`,
         },
       };
       const { data } = await axios.post(`api/products`, newProduct, config);
-      dispatch(setProducts(data.data));
+      dispatch(setProducts(data));
+      dispatch(resetError());
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage =

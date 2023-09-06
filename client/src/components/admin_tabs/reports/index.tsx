@@ -34,7 +34,7 @@ export default function ReportsTab() {
 
   const { error, loading, report } = admin;
 
-  const [chartData, setChartData] = useState(defaultChartData);
+  const [chartData, setChartData] = useState(null);
 
   const [isDateOpen, setIsDateOpen] = useState(false);
 
@@ -44,15 +44,18 @@ export default function ReportsTab() {
 
       report.forEach((r, index) => {
         data.labels.push(r.name);
-        data.datasets[0].label = activeReport ? 'Compras Realizadas $' : 'Cantidad vendida';
+        data.datasets[0].label = activeReport ? 'Cantidad vendida' : 'Compras Realizadas $';
 
         data.datasets[0].backgroundColor.push(`rgba(${colors[index]}, 0.2)`);
         data.datasets[0].borderColor.push(`rgba(${colors[index]}, 1)`);
         data.datasets[0].data.push(r.result);
       });
       setChartData(data);
-      setTitle(reports[activeReport].text);
+      
+    } else {
+      setChartData(null)
     }
+    setTitle(reports[activeReport].text);
   }, [report]);
 
   const getHandleReport = () => {
@@ -130,7 +133,17 @@ export default function ReportsTab() {
               <Text fontSize="3xl" as="b" mb="20px">
                 {title}
               </Text>
-              <Pie data={chartData} />
+              {chartData ? (
+                <Pie data={chartData} />
+              ) : (
+                <Box mt="15" textAlign={"center"}>
+                  <Text as="b">There are not Data in this date range:</Text>
+                  <Text>{`${moment(selectionRange.startDate).format('YYYY/MM/DD')} - ${moment(
+                    selectionRange.endDate
+                  ).format('YYYY/MM/DD')}`}</Text>
+                  <Text mt="25">Por Favor Modifique el Rango de Fechas</Text>
+                </Box>
+              )}
             </Box>
           </Flex>
         </Box>

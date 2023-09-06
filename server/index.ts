@@ -17,9 +17,6 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-// app.use(mongoSanitize());
-// app.use(helmet());
-// app.use(compression());
 
 app.use('/', express.static('public'));
 

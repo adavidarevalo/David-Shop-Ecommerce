@@ -6,9 +6,7 @@ import asyncHandler from 'express-async-handler';
 import { User } from '../models/user.model';
 import { Types } from 'mongoose';
 import { User as UserInterface } from '../types/user';
-import multer from 'multer';
-import shortid from 'shortid';
-import fs from 'fs';
+import { deleteImage } from '../utils/delete_image';
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
@@ -93,37 +91,21 @@ export const createProductReview = asyncHandler(async (req: Request, res: Respon
   });
 });
 
-export const createProduct = asyncHandler(async (req: Request, res: Response) => {
-  const { brand, name, category, stock, price, image, productIsNew, description } = req.body;
-
-  // const multerConfig = {
-  //   limits: {fileSize: req.user? 1024 * 1024 *10 : 1024 * 1024},
-  //   storage: fileStorage = multer.diskStorage({
-  //     destination: (req, file, cb) => {
-  //       cb( null, __dirname+"/../uploads" )
-  //     },
-  //     filename: (req, file, cb) =>{
-  //       const extention = file.originalname.substring(file.originalname.lastIndexOf("."), file.originalname.length)
-  //       cb( null, `${shortid.generate()}${extention}` )
-  //     }
-  //   })
-  //   }
+export const createProduct = asyncHandler(async (req: any, res: Response) => {
+  const { brand, name, category, stock, price, productIsNew, description } = req.body;
 
   const newProduct = await Product.create({
     brand,
     name,
     category,
-    stock,
-    price,
-    image,
-    productIsNew,
+    stock: +stock,
+    price: +price,
+    image: req?.file?.filename || 'undefined.png',
+    productIsNew: !!productIsNew,
     description,
   });
-
   await newProduct.save();
-
   const products = await Product.find({});
-
   if (newProduct) {
     res.status(201).json({
       data: products,
@@ -131,7 +113,6 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
       success: true,
     });
   }
-
   if (!newProduct) {
     res.status(404).json({
       data: null,
@@ -141,10 +122,10 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
   }
 });
 
-export const uploadProduct = asyncHandler(async (req: Request, res: Response) => {
-  const { brand, name, category, stock, price, image, productIsNew, description, _id } = req.body;
+export const uploadProduct = asyncHandler(async (req: any, res: Response) => {
+  const { brand, name, category, stock, price, image, productIsNew, description, id } = req.body;
 
-  const product = await Product.findById(_id);
+  const product = await Product.findById(id);
 
   if (!product) {
     res.status(404).json({
@@ -154,12 +135,16 @@ export const uploadProduct = asyncHandler(async (req: Request, res: Response) =>
     });
   }
 
+  if (req?.file?.filename) {
+    deleteImage(product.image);
+  }
+
   product.name = name || product.name;
   product.brand = brand || product.brand;
   product.category = category || product.category;
   product.stock = stock || product.stock;
   product.price = price || product.price;
-  product.image = image || product.image;
+  product.image = req?.file?.filename || product.image;
   product.productIsNew = productIsNew;
   product.description = description || product.description;
 

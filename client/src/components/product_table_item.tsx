@@ -1,15 +1,36 @@
-import { Input, Td, Tooltip, Tr, useDisclosure, Image, Textarea, Flex, FormControl, FormLabel, Badge, Switch, VStack, Button, useToast } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react'
+import {
+  Input,
+  Td,
+  Tooltip,
+  Tr,
+  useDisclosure,
+  Image,
+  Textarea,
+  Flex,
+  FormControl,
+  FormLabel,
+  Badge,
+  Switch,
+  VStack,
+  Button,
+  useToast,
+  Box,
+  IconButton,
+  ButtonGroup,
+} from '@chakra-ui/react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteProduct, updateProduct } from '../redux/actions/admin.actions';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import ConfirmRemovalAlert from './confirm_removal_alert';
 import { MdOutlineDataSaverOn } from 'react-icons/md';
 import { Product } from '../types/product';
 import { AppDispatch } from '../redux/store';
+import { AiOutlineUpload } from 'react-icons/ai';
+import { validImageFormats } from './add_new_product';
 
 interface Props {
-  product: Product
+  product: Product;
 }
 
 export default function ProductTableItem({ product }: Props) {
@@ -22,25 +43,28 @@ export default function ProductTableItem({ product }: Props) {
   const [price, setPrice] = useState(product.price);
   const [productIsNew, setProductIsNew] = useState<boolean>(product.productIsNew);
   const [description, setDescription] = useState(product.description);
-  const [image, setImage] = useState(product.image);
+  const [image, setImage] = useState<any>();
+  const [readablePicture, setReadablePicture] = useState<string>(product.image);
+  const [error, setError] = useState('');
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const dispatch: AppDispatch = useDispatch();
-  const toast = useToast()
+  const toast = useToast();
 
   const onSaveProduct = () => {
-    dispatch(
-      updateProduct(
-        brand,
-        name,
-        category,
-        stock,
-        +price,
-        image,
-        productIsNew,
-        description,
-        product._id
-      )
-    );
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('brand', brand);
+    formData.append('name', name);
+    formData.append('category', category);
+    formData.append('stock', '' + stock);
+    formData.append('price', '' + price);
+    formData.append('productIsNew', productIsNew.toString());
+    formData.append('description', description);
+    formData.append('id', product._id);
+
+    dispatch(updateProduct(formData));
     toast({
       description: 'Product has been updated',
       status: 'success',
@@ -48,14 +72,87 @@ export default function ProductTableItem({ product }: Props) {
     });
   };
 
+  const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+     setImage(null);
+     setReadablePicture('');
+    const pic = e.target.files![0];
+
+    if (!validImageFormats.includes(pic.type)) {
+      setError(`${pic.name} format is not supported.`);
+      return;
+    }
+
+    if (pic.size > 1024 * 1024 * 5) {
+      setError(`${pic.name} is too large, maximum 5mb allowed.`);
+      return;
+    }
+    setError('');
+    setImage(pic);
+    const reader = new FileReader();
+    reader.readAsDataURL(pic);
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      if (e.target?.result && typeof e.target.result === 'string') {
+        setReadablePicture(e.target.result);
+      }
+    };
+  };
+
+  const handleChangePic = () => {
+    inputRef?.current?.click();
+  };
+
+  const handleDeleteImage = () => {
+    setError('');
+    setImage(null);
+    setReadablePicture('');
+  };
+
   return (
     <>
       <Tr>
         <Td>
-          <Input size={'sm'} value={image} onChange={(e) => setImage(e.target.value)} />
-          <Tooltip label={product.image} fontSize={'sm'}>
-            <Image src={product.image} boxSize={'100px'} fit={'contain'} />
-          </Tooltip>
+          {readablePicture ? (
+            <Box position={'relative'}>
+              <Image boxSize="100px" objectFit="cover" src={readablePicture} alt="Image Upload" />
+              <ButtonGroup mt="2">
+                <IconButton
+                  onClick={handleChangePic}
+                  aria-label="Edit uploaded Image"
+                  colorScheme="orange"
+                  variant={'outline'}
+                  icon={<EditIcon />}
+                />
+                <IconButton
+                  onClick={handleDeleteImage}
+                  aria-label="Delete uploaded Image"
+                  icon={<DeleteIcon />}
+                  variant={'outline'}
+                  colorScheme="red"
+                />
+              </ButtonGroup>
+            </Box>
+          ) : (
+            <Button
+              type={'button'}
+              leftIcon={<AiOutlineUpload />}
+              colorScheme="teal"
+              variant="outline"
+              className="bg-[#BF59CF] rounded-full"
+              onClick={() => {
+                inputRef.current?.click();
+              }}
+            >
+              Subir Imagen
+            </Button>
+          )}
+          <input
+            type="file"
+            hidden
+            multiple
+            ref={inputRef}
+            accept={'image/jpeg'}
+            onChange={imageHandler}
+          />
         </Td>
         <Td>
           <Textarea
@@ -120,7 +217,7 @@ export default function ProductTableItem({ product }: Props) {
         cancelRef={cancelRef}
         itemToDelete={product}
         deleteAction={deleteProduct}
-        successMessage={"Product has been removed."}
+        successMessage={'Product has been removed.'}
       />
     </>
   );

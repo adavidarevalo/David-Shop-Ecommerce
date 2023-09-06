@@ -13,6 +13,7 @@ import ProfilePage from "../pages/profile";
 import CheckoutPage from "../pages/checkout";
 import YourOrdersPage from "../pages/your_orders";
 import Loading from '../components/loading';
+import { Box } from '@chakra-ui/react';
 
 const AdminConsole = React.lazy(() => import('../pages/admin_console'));
 
@@ -94,7 +95,13 @@ export const router = createBrowserRouter([
     path: '/admin-console',
     element: (
       <MainLayout>
-        <Suspense fallback={<Loading/>}>
+        <Suspense
+          fallback={
+            <Box minH={"70vh"}>
+              <Loading />
+            </Box>
+          }
+        >
           <AdminConsole />
         </Suspense>
       </MainLayout>

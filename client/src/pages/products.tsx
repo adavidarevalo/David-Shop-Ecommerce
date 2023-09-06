@@ -58,7 +58,14 @@ export default function ProductsPage() {
         </Alert>
       )}
       {loading && (
-        <Stack direction={'row'} spacing={4} display={'flex'} w={'100vw'} justify={'center'}>
+        <Stack
+          direction={'row'}
+          spacing={4}
+          display={'flex'}
+          w={'100vw'}
+          minH={'80vh'}
+          justify={'center'}
+        >
           <Spinner
             mt={20}
             thickness="2px"

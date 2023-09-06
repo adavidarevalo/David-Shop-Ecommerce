@@ -57,7 +57,7 @@ export default function UsersTab() {
         </Alert>
       )}
       {loading && (
-        <Wrap justify={'center'}>
+        <Wrap justify={'center'} minH={"70vh"}>
           <Stack direction={'row'} spacing={4} display={'flex'} w={'100vw'} justify={'center'}>
             <Spinner
               mt={20}

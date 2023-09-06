@@ -88,7 +88,7 @@ export default function OrderRow({
                     content={() => myRef.current}
                   />
                   <Box hidden>
-                    <OrderTemplate myRef={myRef} />
+                    <OrderTemplate myRef={myRef} order={order} />
                   </Box>
                 </Box>
               </ButtonGroup>
