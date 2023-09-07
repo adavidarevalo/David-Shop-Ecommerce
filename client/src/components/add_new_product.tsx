@@ -132,7 +132,7 @@ export default function AddNewProduct() {
           hidden
           multiple
           ref={inputRef}
-          accept={'image/jpeg'}
+          accept={'image/jpeg,image/png,image/webp'}
           onChange={imageHandler}
         />
       </Td>
