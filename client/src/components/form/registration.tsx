@@ -54,7 +54,7 @@ export default function RegistrationForm() {
               isLoading={loading}
               type="submit"
             >
-              Iniciar Sesión
+              Registrarse
             </Button>
           </Stack>
         </Form>

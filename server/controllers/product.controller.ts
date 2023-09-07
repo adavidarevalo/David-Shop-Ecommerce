@@ -100,7 +100,7 @@ export const createProduct = asyncHandler(async (req: any, res: Response) => {
     category,
     stock: +stock,
     price: +price,
-    image: req?.file?.filename || 'undefined.png',
+    image: `http://localhost:4000/${req?.file?.filename}`,
     productIsNew: !!productIsNew,
     description,
   });

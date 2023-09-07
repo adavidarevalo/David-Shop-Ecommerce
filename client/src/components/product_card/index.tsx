@@ -55,7 +55,7 @@ export default function ProductCard({ product }: Props) {
         <Circle size="10px" position="absolute" top={2} right={2} bg={'green.300'} />
       )}
       {stock <= 0 && <Circle size="10px" position="absolute" top={2} right={2} bg={'red.300'} />}
-      <Image src={image} alt={name} roundedTop={'lg'} />
+      <Image objectFit={"contain"} h={"230px"} src={image} alt={name} roundedTop={'lg'} />
       <Box flex="1" maxH="5" alignItems={'baseline'}>
         {stock <= 0 && (
           <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">

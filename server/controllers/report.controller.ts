@@ -61,14 +61,15 @@ export const getReport = asyncHandler(async (req: Request, res: Response) => {
 
     orders.forEach(({ orderItems }) => {
       orderItems.forEach(order => {
-        if (!order[order._id.toString()]) {
+        if (!productsGrouped[order._id.toString()]) {
           productsGrouped[order._id.toString()] = {
             _id: order._id,
             name: order.name,
             result: 1,
           };
-        } else {
-          productsGrouped[order._id.toString()].result++;
+        }
+        if (productsGrouped[order._id.toString()]) {
+          productsGrouped[order._id.toString()].result += order.qty;
         }
       });
     });

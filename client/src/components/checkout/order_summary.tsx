@@ -62,7 +62,7 @@ export default function CheckoutOrderSummary() {
   return (
     <Stack spacing={8} rounded={'xl'} padding={8} w={'full'}>
       <Heading size={'md'}>Resumen del pedido</Heading>
-      {cart.map((item: any) => (
+      {cart.map((item) => (
         <CheckoutItem key={item._id} cartItem={item} />
       ))}
       <Stack spacing={6}>

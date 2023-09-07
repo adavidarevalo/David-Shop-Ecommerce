@@ -1,4 +1,22 @@
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Flex, Menu, MenuButton, MenuItem, MenuList, Spinner, Stack, Text, Wrap } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spinner,
+  Stack,
+  Text,
+  Wrap,
+} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
@@ -10,6 +28,7 @@ import { getReport } from '../../../redux/actions/admin.actions';
 import { formatDate } from './utils';
 import _ from 'lodash';
 import moment from 'moment';
+import ReportTable from './table';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -51,9 +70,8 @@ export default function ReportsTab() {
         data.datasets[0].data.push(r.result);
       });
       setChartData(data);
-      
     } else {
-      setChartData(null)
+      setChartData(null);
     }
     setTitle(reports[activeReport].text);
   }, [report]);
@@ -134,10 +152,19 @@ export default function ReportsTab() {
                 {title}
               </Text>
               {chartData ? (
-                <Pie data={chartData} />
+                <Box>
+                  <Grid templateColumns="repeat(2, 1fr)" gap={6} minH="350px" mt="10px">
+                    <GridItem w="100%">
+                      <ReportTable />
+                    </GridItem>
+                    <GridItem w="100%">
+                      <Pie data={chartData} />
+                    </GridItem>
+                  </Grid>
+                </Box>
               ) : (
-                <Box mt="15" textAlign={"center"}>
-                  <Text as="b">There are not Data in this date range:</Text>
+                <Box mt="15" textAlign={'center'}>
+                  <Text as="b">No hay datos en este rango de fechas:</Text>
                   <Text>{`${moment(selectionRange.startDate).format('YYYY/MM/DD')} - ${moment(
                     selectionRange.endDate
                   ).format('YYYY/MM/DD')}`}</Text>

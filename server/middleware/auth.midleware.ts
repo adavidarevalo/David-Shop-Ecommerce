@@ -8,11 +8,9 @@ import { User as UserInterface } from '../types/user';
 
 export const protectRouteMiddleware = asyncHandler(
   async (req: Request & { user: UserInterface }, res: Response, next: NextFunction) => {
-    let token;
-
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
       try {
-        token = req.headers.authorization.split('Bearer ')[1];
+        const token = req.headers.authorization.split('Bearer ')[1];
         const decoded = decodeToken(token);
         const id = (decoded as { id?: string })?.id;
 
