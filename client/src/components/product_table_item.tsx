@@ -150,7 +150,7 @@ export default function ProductTableItem({ product }: Props) {
             hidden
             multiple
             ref={inputRef}
-            accept={'image/jpeg'}
+          accept={'image/jpeg,image/png,image/webp'}
             onChange={imageHandler}
           />
         </Td>
