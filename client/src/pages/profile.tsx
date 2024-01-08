@@ -1,23 +1,35 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { UserState } from '../redux/slices/user';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Card, CardBody, CardHeader, Flex, Heading, Stack, StackDivider } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Card,
+  CardBody,
+  CardHeader,
+  Flex,
+  Heading,
+  Stack,
+  StackDivider,
+} from '@chakra-ui/react';
 import ProfileForm from '../components/form/profile';
 
 export default function ProfilePage() {
-        const navigate = useNavigate();
-    const location = useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
 
-        const user = useSelector((state: { user: UserState }) => state.user);
-        const { error, userInfo, loading } = user;
-        
-        useEffect(() => {
-              if (!userInfo?._id) {
-                navigate("/login");
-              }
-            }, [userInfo, error, navigate, location.state]);
-    
+  const user = useSelector((state: { user: UserState }) => state.user);
+  const { error, userInfo, loading } = user;
+
+  useEffect(() => {
+    if (!userInfo?._id) {
+      navigate('/login');
+    }
+  }, [userInfo, error, navigate, location.state]);
 
   return (
     <Box

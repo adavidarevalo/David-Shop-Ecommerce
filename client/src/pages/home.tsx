@@ -53,7 +53,7 @@ export default function HomePage() {
           </Box>
           <Flex flex="1" overflow="hidden">
             <Image
-              src="https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=772&q=80"
+              src="https://okdiario.com/img/tecnologia/2016/01/Comprando-ordenadores-PC-tienda.jpg"
               alt="Lovely Image"
               fallback={<Skeleton />}
               maxH="450px"
@@ -63,7 +63,7 @@ export default function HomePage() {
             />
             <Image
               display={{ base: 'none', sm: 'initial' }}
-              src="https://images.unsplash.com/photo-1589156206699-bc21e38c8a7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=772&q=80"
+              src="https://cdn.forbes.com.mx/2017/08/Internet-personas-felicidad.jpg"
               alt="Lovely Image"
               fallback={<Skeleton />}
               maxH="450px"

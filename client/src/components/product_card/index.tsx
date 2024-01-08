@@ -55,7 +55,9 @@ export default function ProductCard({ product }: Props) {
         <Circle size="10px" position="absolute" top={2} right={2} bg={'green.300'} />
       )}
       {stock <= 0 && <Circle size="10px" position="absolute" top={2} right={2} bg={'red.300'} />}
-      <Image objectFit={"contain"} h={"230px"} src={image} alt={name} roundedTop={'lg'} />
+      <Flex h={'230px'} justifyContent={'center'} alignItems={'center'}>
+        <Image objectFit={'cover'} h={'full'} src={image} alt={name} roundedTop={'lg'} />
+      </Flex>
       <Box flex="1" maxH="5" alignItems={'baseline'}>
         {stock <= 0 && (
           <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
@@ -84,12 +86,18 @@ export default function ProductCard({ product }: Props) {
             </Box>
             {(+price).toFixed(2)}
           </Box>
-          <Tooltip label="Add to cart" bg="white" placement="top" color="gray.800" fontSize="1.2em">
+          <Tooltip
+            label="Add to cart"
+            bg="white"
+            placement="top"
+            color="gray.800"
+            fontSize="1.2em"
+          >
             <Button
               variant="ghost"
               display={'flex'}
               disabled={stock <= 0}
-              onClick={() => addItem(product._id)}
+              onClick={() => stock > 0 && addItem(product._id)}
             >
               <Icon as={FiShoppingCart} h={7} w={7} alignSelf={'center'} />
             </Button>

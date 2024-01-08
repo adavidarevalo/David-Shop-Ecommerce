@@ -49,20 +49,18 @@ export default function OrderTemplate({ myRef, order }: { myRef: React.MutableRe
               <Td>Nombre: {order.username}</Td>
             </Tr>
             <Tr>
-              <Td>Direccion: Ambato - Ecuador</Td>
+              <Td>Direccion: Ibarra - Ecuador</Td>
               <Td>Direccion: {order.shippingAddress.address}</Td>
             </Tr>
             <Tr>
-              <Td>Ciudad: Ambato - Ecuador</Td>
+              <Td>Ciudad: Ibarra - Ecuador</Td>
               <Td>
                 Ciudad: {order.shippingAddress.city} - {order.shippingAddress.country}
               </Td>
             </Tr>
             <Tr>
               <Td>Codigo Postal: 0000</Td>
-              <Td>
-                Codigo Postal: {order.shippingAddress.postalCode}
-              </Td>
+              <Td>Codigo Postal: {order.shippingAddress.postalCode}</Td>
             </Tr>
           </Tbody>
         </Table>

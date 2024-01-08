@@ -29,9 +29,17 @@ export default function Footer() {
               <IconButton as="a" href="#" aria-label="Twitter" icon={<FaTwitter />} />
             </ButtonGroup>
           </Stack>
-          <Text fontSize="sm" color="fg.subtle">
-            &copy; {new Date().getFullYear()} Techno Store, Inc. Todos los derechos reservados.
-          </Text>
+          <>
+            <Text fontSize="sm" color="fg.subtle">
+              Direccion: Av. Don Bosco 12-32 Ibarra
+            </Text>
+            <Text fontSize="sm" color="fg.subtle">
+              Celular: (+02)2422806
+            </Text>
+            <Text fontSize="sm" color="fg.subtle">
+              &copy; {new Date().getFullYear()} Techno Store, Inc. Todos los derechos reservados.
+            </Text>
+          </>
         </Stack>
       </Container>
     </Box>

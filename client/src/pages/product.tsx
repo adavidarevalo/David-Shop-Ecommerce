@@ -167,7 +167,7 @@ export default function ProductPage() {
               mb={{ base: '12', md: 'none' }}
             >
               {product.productIsNew && (
-                <Badge rounded={'full'} w={'50px'} fontSize={'0.8em'} colorScheme="green">
+                <Badge rounded={'full'} w={'55px'} fontSize={'0.8em'} colorScheme="green">
                   Nuevo
                 </Badge>
               )}

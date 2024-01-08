@@ -19,6 +19,7 @@ import { ProductState } from '../redux/slices/product';
 import { AppDispatch } from '../redux/store';
 import { Input } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
+import SpeechRecognitionButton from '../components/speech_recognition_button';
 
 export default function ProductsPage() {
   const dispatch: AppDispatch = useDispatch();
@@ -78,23 +79,22 @@ export default function ProductsPage() {
       )}
       {!loading && !error && (
         <>
-          <Box
-            position={'relative'}
-            mt="10"
-            maxWidth={'700px'}
-            justifyContent={'center'}
-            width={'full'}
-            marginInline={'auto'}
-          >
-            <Input
-              placeholder="Buscar Producto"
-              value={inputSearchValue}
-              onChange={({ target }) => {
-                setInputSearchValue(target.value);
-              }}
-            />
-            <SearchIcon position={'absolute'} top="3" right={'10px'} />
-          </Box>
+          <Flex align={'center'} justify={'center'} w="full" mt="10">
+            <Box position={'relative'} maxWidth={'700px'} justifyContent={'center'} width={'full'}>
+              <Input
+                outline={'none'}
+                placeholder="Buscar Producto"
+                value={inputSearchValue}
+                onChange={({ target }) => {
+                  setInputSearchValue(target.value);
+                }}
+              />
+              <SearchIcon position={'absolute'} top="3" right={'10px'} />
+            </Box>
+            <Box ml={'10px'}>
+              <SpeechRecognitionButton onChange={setInputSearchValue} />
+            </Box>
+          </Flex>
           <Wrap spacing={'30px'} justify={'center'} minHeight={'100vh'}>
             {products.length > 0 && loading === false && (
               <Wrap spacing={'30px'} justify={'center'} minHeight={'100vh'}>
