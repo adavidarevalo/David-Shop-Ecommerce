@@ -40,6 +40,7 @@ import { UserState } from '../redux/slices/user';
 import { AppDispatch } from '../redux/store';
 import { BsPencilSquare } from 'react-icons/bs';
 import { Review } from '../types/product';
+import SpeechRecognitionButton from '../components/speech_recognition_button';
 
 export default function ProductPage() {
   const [comment, setComment] = useState('');
@@ -246,66 +247,74 @@ export default function ProductPage() {
             </Flex>
           </Stack>
           {userInfo?._id && (
-            <>
-              <Tooltip
-                label={hasUserReviewed ? 'You have already reviewed this product' : ''}
-                fontSize={'md'}
-              >
-                <>
-                  <Button
-                    isDisabled={hasUserReviewed}
-                    my="20px"
-                    w={'160px'}
-                    colorScheme="orange"
-                    onClick={() => setReviewBoxOpen((prev) => !prev)}
-                  >
-                    Escribe una reseña
-                  </Button>
-                  {reviewBoxOpen && (
-                    <Stack mb={'20px'}>
-                      <Wrap>
-                        <HStack spacing={'2px'}>
-                          <Button variant={'outline'} onClick={() => setRating(1)}>
-                            <StarIcon color={'orange.500'} />
-                          </Button>
-                          <Button variant={'outline'} onClick={() => setRating(2)}>
-                            <StarIcon color={rating >= 2 ? 'orange.500' : 'gray.200'} />
-                          </Button>
-                          <Button variant={'outline'} onClick={() => setRating(3)}>
-                            <StarIcon color={rating >= 3 ? 'orange.500' : 'gray.200'} />
-                          </Button>
-                          <Button variant={'outline'} onClick={() => setRating(4)}>
-                            <StarIcon color={rating >= 4 ? 'orange.500' : 'gray.200'} />
-                          </Button>
-                          <Button variant={'outline'} onClick={() => setRating(5)}>
-                            <StarIcon color={rating >= 5 ? 'orange.500' : 'gray.200'} />
-                          </Button>
-                        </HStack>
-                      </Wrap>
+          <>
+            <Tooltip
+              label={hasUserReviewed ? 'You have already reviewed this product' : ''}
+              fontSize={'md'}
+            >
+              <>
+                <Button
+                  isDisabled={hasUserReviewed}
+                  my="20px"
+                  w={'160px'}
+                  colorScheme="orange"
+                  onClick={() => setReviewBoxOpen((prev) => !prev)}
+                >
+                  Escribe una reseña
+                </Button>
+                {reviewBoxOpen && (
+                  <Stack mb={'20px'}>
+                    <Wrap>
+                      <HStack spacing={'2px'}>
+                        <Button variant={'outline'} onClick={() => setRating(1)}>
+                          <StarIcon color={'orange.500'} />
+                        </Button>
+                        <Button variant={'outline'} onClick={() => setRating(2)}>
+                          <StarIcon color={rating >= 2 ? 'orange.500' : 'gray.200'} />
+                        </Button>
+                        <Button variant={'outline'} onClick={() => setRating(3)}>
+                          <StarIcon color={rating >= 3 ? 'orange.500' : 'gray.200'} />
+                        </Button>
+                        <Button variant={'outline'} onClick={() => setRating(4)}>
+                          <StarIcon color={rating >= 4 ? 'orange.500' : 'gray.200'} />
+                        </Button>
+                        <Button variant={'outline'} onClick={() => setRating(5)}>
+                          <StarIcon color={rating >= 5 ? 'orange.500' : 'gray.200'} />
+                        </Button>
+                      </HStack>
+                    </Wrap>
+                    <Flex borderRadius={'6px'} border={'1px solid #e2e7f1'} p="2">
                       <Input
+                        border={'none'}
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Review title (optional)"
                       />
+                      <SpeechRecognitionButton onChange={setTitle} />
+                    </Flex>
+                    <Flex borderRadius={'6px'} border={'1px solid #e2e7f1'} p="2">
                       <Textarea
+                        border={'none'}
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         placeholder={`The ${product.name} is...`}
                       />
-                      {reviewToUpdate ? (
-                        <Button w={'140px'} colorScheme="orange" onClick={handleEditReview}>
-                          Editar reseña
-                        </Button>
-                      ) : (
-                        <Button w={'140px'} colorScheme="orange" onClick={onSubmit}>
-                          Publicar reseña
-                        </Button>
-                      )}
-                    </Stack>
-                  )}
-                </>
-              </Tooltip>
-            </>
+                      <SpeechRecognitionButton onChange={setComment} />
+                    </Flex>
+                    {reviewToUpdate ? (
+                      <Button w={'140px'} colorScheme="orange" onClick={handleEditReview}>
+                        Editar reseña
+                      </Button>
+                    ) : (
+                      <Button w={'140px'} colorScheme="orange" onClick={onSubmit}>
+                        Publicar reseña
+                      </Button>
+                    )}
+                  </Stack>
+                )}
+              </>
+            </Tooltip>
+          </>
           )}
           <Stack>
             <Text fontSize={'xl'} fontWeight={'bold'}>
