@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+  pre_build:
+    commands:
+      - echo Logging in to Amazon S3...
+      - aws --version
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Syncing files to S3 bucket...
+      - aws s3 sync . s3://frontend.davidarevalo.info --delete
+      - echo Invalidating CloudFront distribution...
+      - aws cloudfront create-invalidation --distribution-id $(aws cloudfront list-distributions --query "DistributionList.Items[?Origins.Items[0].DomainName=='frontend.davidarevalo.info.s3.amazonaws.com'].Id" --output text) --paths "/*"
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Files successfully deployed to S3 and CloudFront invalidated
